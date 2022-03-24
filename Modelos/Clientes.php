@@ -4,6 +4,10 @@ require_once("generico.php");
 
 class clientes extends generico{
 
+/*
+		Esta clase maneja a los clientes del sistema.
+	*/
+
 
     // Nombre del cliente
 	public $nombre;

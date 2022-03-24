@@ -140,25 +140,28 @@ class autos extends generico{
 			";
 
 
-		$arrayGenero = array(
-			"nombre"		=>	$this->nombre,
-			"email" 		=>  $this->email,
-			"clave"			=>	$this->clave,				
-			"perfil"		=>	$this->perfil,
-			"estado"		=>	$this->estadoRegistro,
+		$arrayAuto = array(
+			"marca"	    	=>	$this->marca,
+			"modelo" 		=>  $this->modelo,
+			"descripcion"	=>	$this->descripcion,				
+			"foto"  		=>	$this->foto,
+            "pasajeros"		=>	$this->pasajeros,
+            "tipovehiculo"	=>	$this->tipovehiculo,
+            "precio"		=>	$this->precio,
+			"estadoRegistro"=>	$this->estadoRegistro,
 			"fechaEdicion"	=>  $fecha,
-			"idUsuario" 	=>  $this->idRegistro,
+			"idAuto" 	=>  $this->idAuto,
 		);	
 
-		$respuesta = $this->ejecutarSentencia($sql, $arrayGenero);
+		$respuesta = $this->ejecutarSentencia($sql, $arrayAuto);
 		if($respuesta == 1){
-			$retorno = "Se guardo el usuario correctamente";
+			$retorno = "Se guardo el auto correctamente";
 		}else{
-			$retorno = "Error al usuario el género";
+			$retorno = "Error al guardar el auto";
 		}
 		return $retorno;
 
-	}//guardarUsuario
+	}//guardarAuto
 
 
 	public function listarUsuarios($filtos = array()){
@@ -177,79 +180,44 @@ class autos extends generico{
 		}else{
 			$limite = 5;
 		}
-		//      SELECT * FROM autores LIMIT 0,10; 
+		//      SELECT * FROM autos LIMIT 0,10; 
 		$puntoSalida = $pagina * $limite;
 
 		$buscador = "";
 		if(isset($filtos['buscar']) && $filtos['buscar'] != "" ){
 		
-			$buscador = ' WHERE nombre LIKE "%'.$filtos['buscar'].'%" ';
+			$buscador = ' WHERE marca LIKE "%'.$filtos['buscar'].'%" ';
 		
 		}
 
-		$varSQL = "SELECT * FROM usuarios ".$buscador."  ORDER BY nombre LIMIT ".$puntoSalida.",".$limite."";
+		$varSQL = "SELECT * FROM autos ".$buscador."  ORDER BY marca LIMIT ".$puntoSalida.",".$limite."";
 
 		$retorno = $this->traerListado($varSQL, array());
 		return $retorno;
 
-	}//listarUsuarios
+	}//listarAutos
 	
-	public function totalUsuarios($filtos = array()){
+	public function totalAutos($filtos = array()){
 		
 		$buscador = "";
 		if(isset($filtos['buscar']) && $filtos['buscar'] != "" ){
 		
-			$buscador = ' WHERE nombre LIKE "%'.$filtos['buscar'].'%" ';
+			$buscador = ' WHERE autos LIKE "%'.$filtos['buscar'].'%" ';
 		
 		}
 
-		$varSQL = 'SELECT count(1) AS totalRegistros FROM usuarios '.$buscador.'';
+		$varSQL = 'SELECT count(1) AS totalRegistros FROM autos '.$buscador.'';
 		$respuesta = $this->traerListado($varSQL, array());
 		$retorno = $respuesta[0]['totalRegistros'];
 
 		return $retorno;
 
-	}//totalUsuarios
+	}//totalAutos
 
-	public function listarPerfiles(){
-		
-		//enum('Administrador','Supervisor','Vendedor')
-		
-		$retorno = ["Administrador"=>"Admistrador","Supervisor"=>"Supervisor","Vendedor"=>"Vendedor"];
-
-		return $retorno;
-
-	}//totalUsuarios
-
-	public function login($email, $clave){
-		
-		//enum('Administrador','Supervisor','Vendedor')
-		$retorno = "";
-		$claMD5 = md5($clave);	
-
-		$varSQL 	= 'SELECT * FROM usuarios WHERE email = :email AND clave = :clave ;';
-		$arrayUsu 	= array('email' => $email, 'clave' => $claMD5);
-
-		
-		$respuesta = $this->traerListado($varSQL, $arrayUsu);
-
-		if(empty($respuesta)){
-			/*
-				En caso que tenga registro entro aca y devuelvo que ya ese autor esta ingresado
-			*/
-			return "Error en las credenciales";
-		}
-
-		return $respuesta;
-
-	}//totalUsuarios
-
+	
 
 
 }
-
-
-
 
 
 ?>
