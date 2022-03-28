@@ -164,7 +164,7 @@ class autos extends generico{
 	}//guardarAuto
 
 
-	public function listarUsuarios($filtos = array()){
+	public function listarAutos($filtos = array()){
 		
 		//$varSQL = 'SELECT * FROM autos';
 
