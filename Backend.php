@@ -13,9 +13,19 @@ if(isset($_GET['sec'])){
 
 }else{
 
-	if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == ""){
+	// Si da error que no existe cargamos 
+	if(!isset($_SESSION['seccion'])){
+
 		$_SESSION['seccion'] = "principal";
+	
+	// Si existe y es vacio 
+	}elseif($_SESSION['seccion'] == ""){
+		$_SESSION['seccion'] = "principal";	
+	// Si existis y tenes algo 
+	}else{
+
 	}
+
 }
 	
 if(isset($_SESSION['nombre'])){
@@ -24,7 +34,7 @@ if(isset($_SESSION['nombre'])){
 
 }
 
-
+print_r($_SESSION['seccion'] );
 
 $objUsuarios = new usuarios();
 $respuesta = "";
@@ -37,11 +47,14 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 	$respuesta = $objUsuarios->login($email, $clave);
 
 	if(isset($respuesta[0]['nombre'])){
+
+		
 		@session_start();
 		$_SESSION['nombre'] = $respuesta[0]['nombre'];
 		$_SESSION['fecha'] 	= date("Y-m-d H:i:s");
 		$_SESSION['perfil'] = $respuesta[0]['perfil'];
 
+	
 	}
 }
 ?>
@@ -62,17 +75,17 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Usuarios</a></li>
-        <li><a href="#">Clientes</a></li>
-        <li><a href="#">Autos</a></li>
-        <li><a href="#">Ventas</a></li>
+        <li><a href="backend.php?sec=Usuarios">Usuarios</a></li>
+        <li><a href="backend.php?sec=Clientes">Clientes</a></li>
+        <li><a href="backend.php?sec=Autos">Autos</a></li>
+        <li><a href="backend.php?sec=Ventas">Ventas</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Usuarios</a></li>
-        <li><a href="#">Clientes</a></li>
-        <li><a href="#">Autos</a></li>
-        <li><a href="#">Ventas</a></li>
+        <li><a href="backend.php?sec=Usuarios">Usuarios</a></li>
+        <li><a href="backend.php?sec=Clientes">Clientes</a></li>
+        <li><a href="backend.php?sec=Autos">Autos</a></li>
+        <li><a href="backend.php?sec=Ventas">Ventas</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -91,16 +104,16 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
       </div>	
 				<br>
 			</div>
-			<div class="row">
-				<form class="col s12" method="POST" action="backend.php">
-			 		<div class="row">
-						<div class="input-field col s12">
+			<div class="row center">
+				<form class="col s9" method="POST" action="backend.php">
+			 		<div class="row center">
+						<div class="input-field col s6">
 							<input name="txtEmail" id="email" type="email" class="validate">
 							<label for="email">Email</label>
 						</div>
 					</div>	
-					<div class="row">
-						<div class="input-field col s12">
+					<div class="row center">
+						<div class="input-field col s6">
 							<input name="txtClave" id="password" type="password" class="validate">
 							<label for="password">Contraseña</label>
 			 			</div>
@@ -123,12 +136,23 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 					
 					
 					include("backend/Vistas/Vista_Autos.php");
+				
+				}else{
+?>
+						<div class="section no-pad-bot" id="index-banner">
+							<br><br>
+							<h1 class="header center solid red-text">Usted no tiene permiso en esta seccion </h1>			
+							<br>
+							<br>
+						</div>
+<?PHP
 				}				
 
 			}elseif($_SESSION['seccion'] == "Ventas"){				
 
 				// Valido los permisos de los usuarios 
 				if($_SESSION['perfil'] == "Administrador" || $_SESSION['perfil'] == "Supervisor" || $_SESSION['perfil'] == "Vendedor" ){
+
 					include("backend/Vistas/Vista_Ventas.php");
 				
 				}else{
@@ -197,6 +221,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 		<script src="backend/js/materialize.js"></script>
 		<script src="backend/js/init.js"></script>
 		<script>
+			
 			document.addEventListener('DOMContentLoaded', function() {		
 
  				M.AutoInit();

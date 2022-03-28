@@ -119,7 +119,7 @@ class usuarios extends generico{
 			";
 
 
-		$arrayGenero = array(
+		$arrayUsuario = array(
 			"nombre"		=>	$this->nombre,
 			"email" 		=>  $this->email,
 			"clave"			=>	$this->clave,				
@@ -129,7 +129,7 @@ class usuarios extends generico{
 			"idUsuario" 	=>  $this->idRegistro,
 		);	
 
-		$respuesta = $this->ejecutarSentencia($sql, $arrayGenero);
+		$respuesta = $this->ejecutarSentencia($sql, $arrayUsuario);
 		if($respuesta == 1){
 			$retorno = "Se guardo el usuario correctamente";
 		}else{
@@ -207,7 +207,7 @@ class usuarios extends generico{
 		$claMD5 = md5($clave);	
 
 		$varSQL 	= 'SELECT * FROM usuarios WHERE email = :email AND clave = :clave ;';
-		$arrayUsu 	= array('email' => $email, 'clave' => $claMD5);
+		$arrayUsu 	= array('email' => $email, 'clave' => $clave);
 
 		
 		$respuesta = $this->traerListado($varSQL, $arrayUsu);

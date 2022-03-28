@@ -1,28 +1,36 @@
 <?PHP
 
-require_once("Modelos/Usuarios.php");
+require_once("Modelos/Clientes.php");
 
-$objUsuarios = new usuarios();
+$objClientes = new clientes();
 
 $respuesta = "";
 
 if(isset($_POST['accion']) && $_POST['accion'] == "Ingresar"){
 
-	$nombre 	= $_POST['txtNombre'];
-	$email	 	= $_POST['txtEmail'];
-	$perfil 	= $_POST['selPerfil'];
-	$clave 		= $_POST['txtClave'];
-
+	$nombre 			= $_POST['txtNombre'];
+    $apellidos 			= $_POST['txtApellidos'];
+    $documento 			= $_POST['txtDocumento'];
+    $fechaNacimiento	= $_POST['txtFechaNacimiento'];
+    $telefono 			= $_POST['txtTelefono'];
+	$email	 			= $_POST['txtEmail'];
+	$clave 				= $_POST['txtClave'];
+        
 	$datos = [
-			'idRegistro'	=>'', 
-			'estadoRegistro'=>'', 
-			'nombre'		=> $nombre, 
-			'email'			=> $email,
-			'perfil'		=> $perfil, 
-			'clave'			=> $clave];
+			'idRegistro'		=>'', 
+			'estadoRegistro'	=>'', 
+			'nombre'			=> $nombre, 
+			'apellidos'			=> $apellidos, 
+			'documento'			=> $documento, 
+			'fechaNacimiento'	=> $fechaNacimiento, 
+			'telefono'			=> $telefono, 
+			'email'				=> $email,
+			'clave'				=> $clave];
 
-	$objUsuarios->constructor($datos);
-	$respuesta = $objUsuarios->ingresarUsuario();
+           
+
+	$objClientes->constructor($datos);
+	$respuesta = $objClientes->ingresarClientes();
 
 }
 
@@ -30,7 +38,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Eliminar"){
 	
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 		$idRegistro = $_POST['idRegistro'];		
-		$objUsuarios->traerUSuario($idRegistro);
+		$objClientes->traerClientes($idRegistro);
 	}
 	
 }
@@ -41,9 +49,9 @@ if(isset($_POST['accion']) && $_POST['accion'] == "ConfirmarEliminar"){
 
 		$idRegistro = $_POST['idRegistro'];
 		
-		$objUsuarios->traerUsuario($idRegistro);
-		$objUsuarios->modificarEstadoBorrado();
-		$respuesta = $objUsuarios->guardarUsuario();
+		$objClientes->traerClientes($idRegistro);
+		$objClientes->modificarEstadoBorrado();
+		$respuesta = $objClientes->guardarClientes();
 
 	}
 }
@@ -54,7 +62,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Editar"){
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 
 		$idRegistro = $_POST['idRegistro'];		
-		$objUsuarios->traerUsuario($idRegistro);
+		$objClientes->traerClientes($idRegistro);
 
 	}
 }
@@ -64,22 +72,28 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Guardar"){
 	
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 
-		$idRegistro = $_POST['idRegistro'];		
-		$nombre 	= $_POST['txtNombre'];
-		$email	 	= $_POST['txtEmail'];
-		$perfil 	= $_POST['selPerfil'];
-		$clave 		= $_POST['txtClave'];
+		$idRegistro 	 = $_POST['idRegistro'];		
+		$nombre 		 = $_POST['txtNombre'];
+   		$apellidos 		 = $_POST['txtApellidos'];
+   		$documento 		 = $_POST['txtDocumento'];
+     	$fechaNacimiento = $_POST['txtFechaNacimiento'];
+     	$telefono 		 = $_POST['txtTelefono'];
+		$email	 		 = $_POST['txtEmail'];
+		$clave 			 = $_POST['txtClave'];
 
-		$objUsuarios->traerUsuario($idRegistro);
-		$objUsuarios->nombre 	= $nombre;
-		$objUsuarios->email		= $email;
-		$objUsuarios->perfil	= $perfil;
-		$objUsuarios->clave		= $clave;
+		$objClientes->traerClientes($idRegistro);
+		$objClientes->nombre 			= $nombre;
+		$objClientes->apellidos 		= $apellidos;
+		$objClientes->documento 		= $documento;
+		$objClientes->fechaNacimiento 	= $fechaNacimiento;
+		$objClientes->telefono 			= $telefono;
+		$objClientes->email				= $email;
+		$objClientes->clave				= $clave;
 
 		if(isset($_POST['eliminar']) && $_POST['eliminar'] == "ok" ){
-			$objUsuarios->modificarEstadoBorrado();
+			$objClientes->modificarEstadoBorrado();
 		}
-		$respuesta = $objUsuarios->guardarUsuario();
+		$respuesta = $objClientes->guardarClientes();
 
 	}
 }
@@ -97,7 +111,7 @@ if(isset($_GET['accion']) && $_GET['accion'] == "Buscar"){
 }
 
 
-$totalRegistros = $objUsuarios->totalUsuarios($arrayFiltros);
+$totalRegistros = $objClientes->totalClientes($arrayFiltros);
 
 if(isset($_GET['pag'])){
 
@@ -127,14 +141,13 @@ if(isset($_GET['pag'])){
 
 }
 
-$listaUsuarios = $objUsuarios->listarUsuarios($arrayFiltros);
-$listarPerfiles= $objUsuarios->listarPerfiles();
+$listaClientes = $objClientes->listarClientes($arrayFiltros);
 
 ?>
 
 	<div class="section no-pad-bot" id="index-banner">
 		<br><br>
-		<h1 class="header center orange-text">Usuarios</h1>			
+		<h1 class="header center orange-text">Clientes</h1>			
 		<br>
 		<br>
 	</div>
@@ -158,10 +171,10 @@ $listarPerfiles= $objUsuarios->listarPerfiles();
 			<div class="row red lighten-5">
 				<form class="col s12" action="backend.php" method="POST">
 					<div class="input-field col s12">
-						<h3>Eliminar el Usuarios:<?=$objUsuarios->nombre?>?</h3>
+						<h3>Eliminar el Cliente:<?=$objClientes->nombre?>?</h3>
 					</div>					
 					<input type="hidden" id="idAccion" name="accion" value="ConfirmarEliminar">
-					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objUsuarios->obtenerIdRegistro()?>">
+					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objClientes->obtenerIdRegistro()?>">
 					<button class="btn waves-effect waves-light red darken-3" type="submit">Eliminar
 						<i class="material-icons right">delete_forever</i>
 					</button>	
@@ -177,31 +190,35 @@ $listarPerfiles= $objUsuarios->listarPerfiles();
 			<div class="row">
 				<form class="col s12" action="backend.php" method="POST">
 					<div class="input-field col s12">
-						<h3>Ingresar Usuario</h3>
+						<h3>Ingresar Cliente</h3>
 					</div>
 					<div class="input-field col s12">
-						<input placeholder="Nombre Usuarios" name="txtNombre" id="first_name" type="text" class="validate" value="<?=$objUsuarios->nombre?>">
+						<input placeholder="Nombre Cliente" name="txtNombre" id="first_name" type="text" class="validate" value="<?=$objClientes->nombre?>">
 						<label for="first_name">Nombre</label>
 					</div>
 					<div class="input-field col s12">
-						<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate" value="<?=$objUsuarios->email?>">
+						<input placeholder="Apellidos Cliente" name="txtApellidos" id="first_name" type="text" class="validate" value="<?=$objClientes->apellidos?>">
+						<label for="first_name">Apellidos</label>
+					</div>
+					<div class="input-field col s12">
+						<input placeholder="Documento Cliente" name="txtDocumento" id="first_name" type="text" class="validate" value="<?=$objClientes->documento?>">
+						<label for="first_name">Documento</label>
+					</div>
+					<div class="input-field col s12">
+						<input placeholder="Fecha Nacimiento Cliente" name="txtFechaNacimiento" id="first_name" type="text" class="validate" value="<?=$objClientes->fechaNacimiento?>">
+						<label for="first_name">Fecha Nacimiento</label>
+					</div>
+					<div class="input-field col s12">
+						<input placeholder="Telefono Cliente" name="txtTelefono" id="first_name" type="text" class="validate" value="<?=$objClientes->telefono?>">
+						<label for="first_name">Telefono</label>
+					</div>
+					<div class="input-field col s12">
+						<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate" value="<?=$objClientes->email?>">
 						<label for="first_name">Email</label>
 					</div>
+					
 					<div class="input-field col s12">
-						<select name="selPerfil">
-<?php
-							foreach($listarPerfiles as $clave => $perfil){
-?>
-								<option value="<?=$clave?>"><?=$perfil?></option>
-
-<?PHP
-							}
-?>	
-						</select>
-						<label for="first_name">Perfil</label>
-					</div>
-					<div class="input-field col s12">
-						<input placeholder="clave" name="txtClave" id="first_name" type="text" class="validate" value="<?=$objUsuarios->clave?>">
+						<input placeholder="clave" name="txtClave" id="first_name" type="text" class="validate" value="<?=$objClientes->clave?>">
 						<label for="first_name">Clave</label>
 					</div>
 					<div class="input-field col s12">
@@ -216,7 +233,7 @@ $listarPerfiles= $objUsuarios->listarPerfiles();
 					</div>
 
 					<input type="hidden" id="idAccion" name="accion" value="Guardar">
-					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objUsuarios->obtenerIdRegistro()?>">
+					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objClientes->obtenerIdRegistro()?>">
 					<button class="btn waves-effect waves-light cyan darken-3" type="submit">Guardar
 						<i class="material-icons right">send</i>
 					</button>	
@@ -251,42 +268,48 @@ $listarPerfiles= $objUsuarios->listarPerfiles();
 					<tr class="blue darken-3">
 						<th>#Id Registro</th>
 						<th>Nombre</th>
+						<th>Apellidos</th>
+						<th>Documento</th>
+						<th>Fecha Nacimiento</th>
+						<th>Telefono</th>
 						<th>Email</th>
 						<th>Clave</th>
-						<th>Perfil</th>
 						<th>Estado</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
 <?php
-				foreach($listaUsuarios as $usuarios){
+				foreach($listaClientes as $Clientes){
 ?>
 					<tr>
-						<td><?=$usuarios['idUsuario']?></td>	
-						<td><?=$usuarios['nombre']?></td>
-						<td><?=$usuarios['email']?></td>
-						<td><?=$usuarios['clave']?></td>
-						<td><?=$usuarios['perfil']?></td>
-						<td><?=$usuarios['estadoRegistro']?></td>
+						<td><?=$Clientes['idCliente']?></td>	
+						<td><?=$Clientes['nombre']?></td>
+						<td><?=$Clientes['apellidos']?></td>
+						<td><?=$Clientes['documento']?></td>
+						<td><?=$Clientes['fechaNacimiento']?></td>
+						<td><?=$Clientes['telefono']?></td>
+						<td><?=$Clientes['email']?></td>
+						<td><?=$Clientes['clave']?></td>
+						<td><?=$Clientes['estadoRegistro']?></td>
 						<td>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Eliminar">
-								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
+								<input type="hidden" name="idRegistro" value="<?=$clientes['idClientes']?>">
 								<button class="btn-floating waves-effect waves-light red darken-3" type="submit" name="action">
 									<i class="material-icons right">delete_forever</i>
 								</button>
 							</form>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Editar">
-								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
+								<input type="hidden" name="idRegistro" value="<?=$clientes['idClientes']?>">
 								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
 									<i class="material-icons right">edit</i>
 								</button>
 							</form>
                             <form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Activar">
-								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
+								<input type="hidden" name="idRegistro" value="<?=$clientes['idClientes']?>">
 								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
 									<i class="material-icons right">check</i>
 								</button>
@@ -339,28 +362,27 @@ $listarPerfiles= $objUsuarios->listarPerfiles();
 				<div class="row">
 					<form class="col s12" action="backend.php" method="POST">
 						<div class="input-field col s12">
-							<h3>Ingresar Usuarios</h3>
+							<h3>Ingresar Clientes</h3>
 						</div>
 						<div class="input-field col s12">
 							<input placeholder="Nombre" name="txtNombre" id="first_name" type="text" class="validate">
 							<label for="first_name">Nombre</label>
 						</div>
 						<div class="input-field col s12">
-							<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate">
-							<label for="first_name">Email</label>
+							<input placeholder="Apellidos" name="txtApellidos" id="first_name" type="text" class="validate">
+							<label for="first_name">Apellidos</label>
 						</div>
 						<div class="input-field col s12">
-							<select name="selPerfil">
-<?php
-								foreach($listarPerfiles as $clave => $perfil){
-?>
-									<option value="<?=$clave?>"><?=$perfil?></option>
-
-<?PHP
-								}
-?>	
-							</select>
-							<label for="first_name">Perfil</label>
+							<input placeholder="Documentos" name="txtDocumento" id="first_name" type="text" class="validate">
+							<label for="first_name">Documentos</label>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="txtFechaNacimiento" name="txtFechaNacimiento" id="first_name" type="date" class="validate">
+							<label for="first_name">Fecha Nacimiento</label>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate">
+							<label for="first_name">Email</label>
 						</div>
 						<div class="input-field col s12">
 							<input placeholder="Clave" name="txtClave" id="first_name" type="text" class="validate">
@@ -377,4 +399,3 @@ $listarPerfiles= $objUsuarios->listarPerfiles();
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat  white-text">Cancelar</a>
 			</div>
 		</div>
-
