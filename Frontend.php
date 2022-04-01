@@ -41,7 +41,6 @@ if(isset($_SESSION['nombre'])){
 
 }
 
-print_r($_SESSION['seccion'] );
 
 $objCliente = new clientes();
 $respuesta = "";
@@ -85,12 +84,12 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
     <div class="nav-wrapper container">
       <img src="Imagenes/Yanicar Automoviles.png" alt="Yanicar Automoviles" width="180px" height="60px">
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Autos</a></li>
+      <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal3">Registrate</a></li>
         <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-         <li><a href="#">Autos</a></li>
+         <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal3">Registrate</a></li>
          <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -147,21 +146,37 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
         <br><br>
         <br><br>
         <br><br>    
-
-              
-  <!-- Modal Structure -->
-  <div id="modal2" class="modal">
+<!-- Modal Structure -->
+<div id="modal3" class="modal">
 			<div class="modal-content">				
 				<div class="row">
-					<form class="col s12" action="Frontend.php" method="POST">
+					<form class="col s12" action="backend.php" method="POST">
 						<div class="input-field col s12">
-							<h3>Ingresar Cliente</h3>
-					
+							<h3>Ingresar Clientes</h3>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="Nombre" name="txtNombre" id="first_name" type="text" class="validate">
+							<label for="first_name">Nombre</label>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="Apellidos" name="txtApellidos" id="first_name" type="text" class="validate">
+							<label for="first_name">Apellidos</label>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="Documentos" name="txtDocumento" id="first_name" type="text" class="validate">
+							<label for="first_name">Documentos</label>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="Telefono" name="txtTelefono" id="first_name" type="text" class="validate">
+							<label for="first_name">Telefono</label>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="txtFechaNacimiento" name="txtFechaNacimiento" id="first_name" type="date" class="validate">
+							<label for="first_name">Fecha Nacimiento</label>
+						</div>
 						<div class="input-field col s12">
 							<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate">
 							<label for="first_name">Email</label>
-						</div>
-
 						</div>
 						<div class="input-field col s12">
 							<input placeholder="Clave" name="txtClave" id="first_name" type="text" class="validate">
@@ -177,7 +192,37 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 			<div class="modal-footer blue darken-4">
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat  white-text">Cancelar</a>
 			</div>
-		</div>      
+		</div>
+              
+  <!-- Modal Structure -->
+  <div id="modal2" class="modal">
+			<div class="modal-content">				
+				<div class="row">
+					<form class="col s12" action="Frontend.php" method="POST">
+						<div class="input-field col s12">
+							<h3>Ingresar Cliente</h3>
+					
+						<div class="input-field col s12">
+							<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate">
+							<label for="first_name">Email</label>
+						</div>
+
+						</div>
+						  <div class="input-field col s12">
+						  	<input placeholder="Clave" name="txtClave" id="first_name" type="text" class="validate">
+						  	<label for="first_name">Clave</label>
+					  	</div>
+					    	<input type="hidden" id="idAccion" name="accion" value="Ingresar" >
+					      	<button class="btn waves-effect waves-light cyan darken-3" type="submit">Enviar
+					  	    	<i class="material-icons right">send</i>
+						      </button>	
+					</form>
+				</div>
+			</div>
+	    	<div class="modal-footer blue darken-4">
+			  	<a href="#!" class="modal-close waves-effect waves-green btn-flat  white-text">Cancelar</a>
+    	</div>
+  </div>      
 
         
         <div class="col s12 m4">
