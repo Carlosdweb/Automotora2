@@ -246,7 +246,7 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 			<table class="striped">
 				<thead>
 					<tr class="blue darken-3">
-						<th colspan="8">
+						<th colspan="12">
 							<div class="row">
 								<div class="col s6">
 									<a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal1">Ingresar</a>
@@ -307,13 +307,7 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 									<i class="material-icons right">edit</i>
 								</button>
 							</form>
-                            <form action="backend.php" method="POST">
-								<input type="hidden" name="accion" value="Activar">
-								<input type="hidden" name="idRegistro" value="<?=$clientes['idClientes']?>">
-								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
-									<i class="material-icons right">check</i>
-								</button>
-							</form>
+                           
 						</td>
 						
 					</tr>					
@@ -321,7 +315,7 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 				}
 ?>
 					<tr>
-						<td colspan="8">
+						<td colspan="12">
 							<span class="right"><?=$totalRegistros?></span>
 							<ul class="pagination right">
 								<li class="waves-effect">
@@ -375,6 +369,10 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 						<div class="input-field col s12">
 							<input placeholder="Documentos" name="txtDocumento" id="first_name" type="text" class="validate">
 							<label for="first_name">Documentos</label>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="Telefono" name="txtTelefono" id="first_name" type="text" class="validate">
+							<label for="first_name">Telefono</label>
 						</div>
 						<div class="input-field col s12">
 							<input placeholder="txtFechaNacimiento" name="txtFechaNacimiento" id="first_name" type="date" class="validate">

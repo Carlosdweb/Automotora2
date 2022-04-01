@@ -284,13 +284,7 @@ $listarPerfiles= $objUsuarios->listarPerfiles();
 									<i class="material-icons right">edit</i>
 								</button>
 							</form>
-                            <form action="backend.php" method="POST">
-								<input type="hidden" name="accion" value="Activar">
-								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
-								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
-									<i class="material-icons right">check</i>
-								</button>
-							</form>
+                            
 						</td>
 						
 					</tr>					

@@ -1,8 +1,8 @@
 <?php
 
-require_once("generico.php");
+require_once("Generico.php");
 
-class autos extends generico{
+class Autos extends generico{
 
 	/*
 		Esta clase maneja los autos en el sistema.
@@ -32,7 +32,7 @@ class autos extends generico{
 		$this->descripcion	  = $this->chequeadorConstructor($arrayDatos, 'descripcion', ''); 
 		$this->foto     	  = $this->chequeadorConstructor($arrayDatos, 'foto'); 
         $this->pasajeros	  = $this->chequeadorConstructor($arrayDatos, 'pasajeros'); 
-        $this->tipovehiculo	  = $this->chequeadorConstructor($arrayDatos, 'tipovehiculo');
+        $this->tipovehiculo	  = $this->chequeadorConstructor($arrayDatos, 'tipovehiculo','');
         $this->precio	      = $this->chequeadorConstructor($arrayDatos, 'precio'); 
 		$this->estadoRegistro = $this->chequeadorConstructor($arrayDatos, 'estado', 'Ingresado'); 
 	}
@@ -70,11 +70,9 @@ class autos extends generico{
 						historial 		= '';
 				";
 
-			$clave = md5($this->clave);	
-
 			$arrayAutos = array(
-				"marca"		    	=>	$this->nombre,
-				"modelo" 			=>  $this->email,
+				"marca"		    	=>	$this->marca,
+				"modelo" 			=>  $this->modelo,
 				"descripcion"		=>  $this->descripcion,				
 				"foto       "		=>  $this->foto,				
 				"pasajeros"			=>	$this->pasajeros,
@@ -90,12 +88,14 @@ class autos extends generico{
 				$retorno = "Se ingreso el auto correctamente";
 			}else{
 				$retorno = "Error al ingresar el auto";
+
 			}
 			return $retorno;
 
 		}catch(PDOException $e){
 			$retorno = "Ocurrio Un error al ingresar el auto";
 			return $retorno;
+
 		}
 
 	}// ingresarAuto
@@ -108,10 +108,10 @@ class autos extends generico{
 		$respuesta = $this->traerListado($varSQL, $arrayAutos);
 
 		$this->idRegistro 		= $respuesta[0]['idAuto'];
-		$this->marca			= $respuesta[0]['nombre'];
-		$this->modelo			= $respuesta[0]['email'];
-		$this->descripcion		= $respuesta[0]['clave'];
-		$this->foto			    = $respuesta[0]['perfil'];
+		$this->marca			= $respuesta[0]['marca'];
+		$this->modelo			= $respuesta[0]['modelo'];
+		$this->descripcion		= $respuesta[0]['descripcion'];
+		$this->foto			    = $respuesta[0]['foto'];
         $this->pasajeros	    = $respuesta[0]['pasajeros'];
         $this->tipovehiculo	    = $respuesta[0]['tipovehiculo'];
         $this->precio			= $respuesta[0]['precio'];
@@ -136,7 +136,7 @@ class autos extends generico{
 					estadoRegistro	= :estadoRegistro,
 					fechaEdicion	= :fechaEdicion,
 					historial 		= ''
-				WHERE idAuto = :idAuto;
+				WHERE idAuto		 = :idAuto;
 			";
 
 
@@ -150,7 +150,7 @@ class autos extends generico{
             "precio"		=>	$this->precio,
 			"estadoRegistro"=>	$this->estadoRegistro,
 			"fechaEdicion"	=>  $fecha,
-			"idAuto" 	=>  $this->idAuto,
+			"idAuto" 		=>  $this->idAuto,
 		);	
 
 		$respuesta = $this->ejecutarSentencia($sql, $arrayAuto);
@@ -166,7 +166,7 @@ class autos extends generico{
 
 	public function listarAutos($filtos = array()){
 		
-		//$varSQL = 'SELECT * FROM autos';
+		$varSQL = 'SELECT * FROM autos';
 
 		// Evaluo si existe en el array que recibo la clave pagina en caso contrario pongo por defecto 0.
 		if(isset($filtos['pagina']) && $filtos['pagina'] != "" ){			
@@ -202,7 +202,7 @@ class autos extends generico{
 		$buscador = "";
 		if(isset($filtos['buscar']) && $filtos['buscar'] != "" ){
 		
-			$buscador = ' WHERE autos LIKE "%'.$filtos['buscar'].'%" ';
+			$buscador = ' WHERE marca LIKE "%'.$filtos['buscar'].'%" ';
 		
 		}
 
@@ -215,8 +215,15 @@ class autos extends generico{
 	}//totalAutos
 
 	
+	public function listarTipoVehiculos(){
+		
+		//enum('Citycar','Sedan','Deportivo''Utilitarios','Camionetas','Omnibus')
+		
+		$retorno = ["Citycar"=>"Citycar","Sedan"=>"Sedan","Deportivo"=>"Deportivo","Utilitarios"=>"Utilitarios","Camionetas"=>"Camionetas","Omnibus"=>"Omnibus"];
 
+		return $retorno;
 
+	}
 }
 
 

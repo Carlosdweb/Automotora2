@@ -1,6 +1,6 @@
 <?php
 
-require_once("generico.php");
+require_once("Generico.php");
 
 class usuarios extends generico{
 

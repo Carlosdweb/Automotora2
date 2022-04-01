@@ -34,7 +34,7 @@ if(isset($_SESSION['nombre'])){
 
 }
 
-print_r($_SESSION['seccion'] );
+
 
 $objUsuarios = new usuarios();
 $respuesta = "";
@@ -67,13 +67,16 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="Backend/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="Backend/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+    <div class="nav-wrapper container">
+	<img src="Imagenes/Yanicar Automoviles.png" alt="Yanicar Automoviles" width="180px" height="60px">
+		<a id="logo-container" href="Imagenes/Yanicar Automoviles.png" class="brand-logo"></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="backend.php?sec=Usuarios">Usuarios</a></li>
         <li><a href="backend.php?sec=Clientes">Clientes</a></li>
@@ -217,6 +220,9 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 			</div>
 		</footer>
 		<!--  Scripts-->
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 		<script src="backend/js/jquery-2.1.1.min.js"></script>
 		<script src="backend/js/materialize.js"></script>
 		<script src="backend/js/init.js"></script>

@@ -1,6 +1,6 @@
 <?php
 
-require_once("generico.php");
+require_once("Generico.php");
 
 class clientes extends generico{
 

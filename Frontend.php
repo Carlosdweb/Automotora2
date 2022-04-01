@@ -1,20 +1,70 @@
-
-
-<?php
-
-
+<?PHP
 
 require_once("Modelos/Autos.php");
 
 $objAutos = new autos();
 
-$arraFilto = ['limite' => "4"];
+$arraFilto = ['limite' => "6"];
 
 $listaRandom = $objAutos->listarAutos($arraFilto);
 
 
-?>
 
+
+
+@session_start();
+
+if(isset($_GET['sec'])){
+
+	$_SESSION['seccion'] = $_GET['sec'];
+
+}else{
+
+	// Si da error que no existe cargamos 
+	if(!isset($_SESSION['seccion'])){
+
+		$_SESSION['seccion'] = "principal";
+	
+	// Si existe y es vacio 
+	}elseif($_SESSION['seccion'] == ""){
+		$_SESSION['seccion'] = "principal";	
+	// Si existis y tenes algo 
+	}else{
+
+	}
+
+}
+	
+if(isset($_SESSION['nombre'])){
+
+}else{
+
+}
+
+print_r($_SESSION['seccion'] );
+
+$objCliente = new clientes();
+$respuesta = "";
+
+if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
+
+	$email = $_POST['txtEmail'];
+	$clave 	= $_POST['txtClave'];
+	
+	$respuesta = $objCliente->login($email, $clave);
+
+	if(isset($respuesta[0]['nombre'])){
+
+		
+		@session_start();
+		$_SESSION['nombre'] = $respuesta[0]['nombre'];
+		$_SESSION['fecha'] 	= date("Y-m-d H:i:s");
+	}
+}
+
+
+
+?>
 
 
 <!DOCTYPE html>
@@ -22,54 +72,52 @@ $listaRandom = $objAutos->listarAutos($arraFilto);
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>YaniCar Automoviles</title>
+  <title>Yanicar Automoviles</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="Web/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="Web/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
-      <img src="Imagenes/Yanicar Automoviles.png"></a>
+      <img src="Imagenes/Yanicar Automoviles.png" alt="Yanicar Automoviles" width="180px" height="60px">
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Login</a></li>
+        <li><a href="#">Autos</a></li>
+        <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Login</a></li>
+         <li><a href="#">Autos</a></li>
+         <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
 
-  <div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <br><br>
-        <h1 class="header center teal-text text-lighten-2">YaniCar Automoviles</h1>
-        <div class="row center">
-          <h5 class="header col s12 red-text">El Auto de tus sueños al alcance de tu bolsillo</h5>
-        </div>
-        <br><br>
-     </div>
-    </div>
-    <div class="parallax">
-        <img src="Imagenes/autos background.png" alt="Unsplashed background autos"></div>
-  </div>
+        <div class="container section">
+          <div class="row">
+            <div class="col s12">
+            <h1 class="header center  orange darken-1">Elige el auto de tus sueños</h1>
 
+              <div class="carousel carousel-slider">
 
+                  <a href="" calss="carpusel-item">
+                    <img src="imagenes/cammaro negro.png" alt="">
+                  </a>
 
+                  <a href="" calss="carpusel-item">
+                    <img src="imagenes/renault clio blanco.jpg" alt="">
+                  </a>
 
-  <div class="carousel carousel-slider">
-    <a class="carousel-item" href="#one!"><img src="imagenes/aveo blanco.png"></a>
-    <a class="carousel-item" href="#two!"><img src="imagenes/cammaro negro.png"></a>
-    <a class="carousel-item" href="#three!"><img src="imagenes/renault clio blanco.jpg"></a>
-    <a class="carousel-item" href="#four!"><img src="imagenes/micro bus mercedes.jpg"></a>
-  </div>
-        
-        
+              </div>
+
+            </div>
+          </div>
+       </div>
+
 
   <div class="container">
     <div class="section">
@@ -77,101 +125,172 @@ $listaRandom = $objAutos->listarAutos($arraFilto);
       <!--   Icon Section   -->
       <div class="row">
 
-      <?PHP
-				foreach($listaRandom as $Autos){
+
+<?PHP
+			      	foreach($listaRandom as $Autos){
 ?>
-					<div class="col s6 m6">
-						<div class="icon-block">
-							<img src="Imagenes<?=$Autos['Foto']?>" width="480px" height="480px" />
-							<h5 class="center"><?=$Autos['Marca']?></h5>
-							<p class="light"><?=substr($Autos['Descripcion'], 0, 100)?>...</p>
-						</div>
-					</div>
+					      <div class="col s12 m2">
+						        <div class="icon-block">
+							          <img src="Imagenes/<?=$Autos['foto']?>" width="460px" height="280" />
+							          <h5 class="center"><?=$Autos['marca']?></h5>
+							          <p class="light"><?=substr($Autos['descripcion'], 0, 100)?>...</p>
+						        </div>
+					      </div>
 <?PHP
 				}
 ?>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>    
 
+              
+  <!-- Modal Structure -->
+  <div id="modal2" class="modal">
+			<div class="modal-content">				
+				<div class="row">
+					<form class="col s12" action="Frontend.php" method="POST">
+						<div class="input-field col s12">
+							<h3>Ingresar Cliente</h3>
+					
+						<div class="input-field col s12">
+							<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate">
+							<label for="first_name">Email</label>
+						</div>
 
-    </div>
-  </div>
+						</div>
+						<div class="input-field col s12">
+							<input placeholder="Clave" name="txtClave" id="first_name" type="text" class="validate">
+							<label for="first_name">Clave</label>
+						</div>
+						<input type="hidden" id="idAccion" name="accion" value="Ingresar" >
+						<button class="btn waves-effect waves-light cyan darken-3" type="submit">Enviar
+							<i class="material-icons right">send</i>
+						</button>	
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer blue darken-4">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat  white-text">Cancelar</a>
+			</div>
+		</div>      
 
+        
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">la experiencia que gustes</h5>
+            <p class="light center">Alquila tu auto y compartelo con hasta 3 conductores al mismo precio de 1.</p>
+          </div>
+        </div>
 
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h5 class="header col s12 red-text">A modern responsive front-end framework based on Material Design</h5>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">build</i></h2>
+            <h5 class="center">La mejor asistencia</h5>
+            <p class="light center">Contamos con la mejor asistencia de auxilio mecanico por cualquier eventualidad, tu auto esta asegurado contra todo, puedes disfrutar tu viaje tranquilo.</p>
+          </div>
+        </div>
+     
+
+      <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">gps_fixed</i></h2>
+            <h5 class="center">Tu seguridad y la nuestra</h5>
+            <p class="light center">Todos nuestros autos cuentan con monitoreo GPS las 24hs los 365 días.</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="parallax"><img src="Imagenes/autos background.png" alt="Unsplashed background img 2"></div>
-  </div>
-
-  <div class="container">
-    <div class="section">
-
-      <div class="row">
-        <div class="col s12 center">
-          <h3><i class="mdi-content-send brown-text"></i></h3>
-          <h4>Contact Us</h4>
-          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-        </div>
-      </div>
 
     </div>
   </div>
 
 
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-        </div>
-      </div>
-    </div>
-    <div class="parallax"><img src="Imagenes/autos background.png" alt="Unsplashed background img 3"></div>
-  </div>
 
   <footer class="page-footer teal">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Sobre Nosotros</h5>
-          <p class="grey-text text-lighten-4">Estamos enfocados a ofrecer el mejor servicio al minimo costo, para ello trabajamos a diario para ofrecer la mejor flota de vehiculos al un precio imbatible.</p>
-        </div>
+          <h5 class="white-text ">Nuestra Meta</h5>
+          <p class="grey-text text-lighten-4 ">Estamos enfocados a ofrecer el mejor servicio al minimo costo, para ello trabajamos a diario para ofrecer la mejor flota de vehiculos al un precio imbatible. </p>
+       </div>
         
         <div class="col l3 s12">
-          <h5 class="white-text">Contacto</h5>
+        <h5 class="white-text center">Contacto</h5>
           <ul>
-            <li><a class="white-text" href="#!">Whatsapp</a></li>
-            <li><a class="white-text" href="#!">Mail</a></li>
-            <li><a class="white-text" href="#!">Telefono</a></li>
-            
+            <li><i class="material-icons">mail</i><a class="white-text" href="#!">Mail</a></li>
+            <li><i class="material-icons">local_phone</i><a class="white-text" href="#!">Whatsapp: 092445894</a></li>
+            <li><i class="material-icons">local_phone</i><a class="white-text" href="#!">Telefonos: 22004323</a></li>
+            <li><i class="material-icons">location_on</i><a class="white-text" href="#!">Direccion: Dr. Magested 1711 Montevideo Uruguay </a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+     
       </div>
     </div>
   </footer>
 
 
   <!--  Scripts-->
-  <script src="js/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
+  
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+		<script src="backend/js/jquery-2.1.1.min.js"></script>
+		<script src="backend/js/materialize.js"></script>
+		<script src="backend/js/init.js"></script>
+		<script>
+			
+			document.addEventListener('DOMContentLoaded', function() {		
+
+ 				M.AutoInit();
+				var elems = document.querySelectorAll('.modal');
+				var instances = M.Modal.init(elems, options);
+
+				var elems = document.querySelectorAll('.dropdown-trigger');
+    			var instances = M.Dropdown.init(elems, options);
+
+			});
+		</script>
   <script>
+			
+      //modal//
+    var  options={}
+     document.addEventListener('DOMContentLoaded', function() {		
+ 				var elems = document.querySelectorAll('.modal');
+				var instances = M.Modal.init(elems, options);
 
-        var instance = M.Carousel.init({
-        fullWidth: true
-       
+				var elems = document.querySelectorAll('.dropdown-trigger');
+    			var instances = M.Dropdown.init(elems, options);
+
+			});
+
+      //carousel//
+		</script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.carousel');
+    var instances = M.Carousel.init(elems);
+
+        $(document).ready(function(){
+        $('.carousel').carousel();
+  });
+      
   });
 
+  //datepicker//
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      m.autoinit()
+    });
   </script>
 
   </body>

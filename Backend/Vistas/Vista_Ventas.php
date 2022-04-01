@@ -1,61 +1,45 @@
 <?PHP
 
+require_once("Modelos/Ventas.php");
 require_once("Modelos/Autos.php");
+require_once("Modelos/Clientes.php");
 
-$objAutos = new autos();
+
+$objVentas = new ventas();
 
 $respuesta = "";
 
 if(isset($_POST['accion']) && $_POST['accion'] == "Ingresar"){
 
-	$imagen 	= "";
-
-	if( isset($_FILES['txtFoto']['name']) ){
-		$ruta = "Imagenes/".$_FILES['txtFoto']['name'];
+      
+    $idCliente  	= $_POST['txtidCliente'];
+	$idAuto	        = $_POST['txtidAuto'];
+	$precio 	    = $_POST['txtprecio'];
+    $fechainicio 	= $_POST['txtfechainicio'];
+    $fechaFinal 	= $_POST['txtfechaFinal'];
+    $estadoEntrega 	= $_POST['selestadoEntrega'];
+   
 	
-		if(copy($_FILES['txtFoto']['tmp_name'], $ruta)){
-			
-			$imagen 	= $_FILES['txtFoto']['name'];
-
-		}else{
-			print_r("Dio Error al subir la imagen");
-		
-		}
-	}
-	
-	$marca 			= $_POST['txtMarca'];
-    $modelo 		= $_POST['txtModelo'];
-    $descripcion 	= $_POST['txtDescripcion'];
-    $foto       	= $_POST['txtFoto'];
-    $pasajeros 	    = $_POST['txtPasajeros'];
-	$tipovehiculo   = $_POST['txtTipoVehiculo'];
-	$precio 		= $_POST['txtPrecio'];
-        
 	$datos = [
 			'idRegistro'	=>'', 
-			'estadoRegisto' =>'', 
-			'marca'		    => $marca, 
-			'modelo'		=> $modelo, 
-			'descripcion'	=> $descripcion, 
-			'foto'	        => $foto, 
-			'pasajeros'		=> $pasajeros, 
-			'tipovehiculo'	=> $tipovehiculo,
-			'precio'		=> $precio];
-
-           
-
-	$objAutos->constructor($datos);
-	$respuesta = $objAutos->ingresarAuto();
-
+			'estadoRegistro'=>'', 
+			'idCliente'		=> $idCliente, 
+			'idAuto'		=> $idAuto,
+			'precio'		=> $precio, 
+            'fechainicio'	=> $fechainicio, 
+            'fechaFinal'	=> $fechaFinal, 
+            'estadoEntrega'	=> $estadoEntrega];
+			
+	$objVentas->constructor($datos);
+	$respuesta = $objVentas->ingresarVenta();
 
 }
-
 
 if(isset($_POST['accion']) && $_POST['accion'] == "Eliminar"){
 	
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 		$idRegistro = $_POST['idRegistro'];		
-		$objAutos->traerAutos($idRegistro);
+		$objVentas->traerVenta($idRegistro);
 	}
 	
 }
@@ -66,9 +50,9 @@ if(isset($_POST['accion']) && $_POST['accion'] == "ConfirmarEliminar"){
 
 		$idRegistro = $_POST['idRegistro'];
 		
-		$objAutos->traerAutos($idRegistro);
-		$objAutos->modificarEstadoBorrado();
-		$respuesta = $objAutos->guardarAuto();
+		$objVentas->traerVenta($idRegistro);
+		$objVentas->modificarEstadoBorrado();
+		$respuesta = $objVentas->guardarVentas();
 
 	}
 }
@@ -79,7 +63,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Editar"){
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 
 		$idRegistro = $_POST['idRegistro'];		
-		$objAutos->traerAutos($idRegistro);
+		$objVentas->traerVenta($idRegistro);
 
 	}
 }
@@ -89,30 +73,27 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Guardar"){
 	
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 
-		$idRegistro 	= $_POST['idRegistro'];		
-        $marca 			= $_POST['txtMarca'];
-        $modelo 		= $_POST['txtModelo'];
-        $descripcion 	= $_POST['txtDescripcion'];
-        $foto       	= $_POST['txtFoto'];
-        $pasajeros 	    = $_POST['txtPasajeros'];
-        $tipovehiculo   = $_POST['txtTipoVehiculo'];
-        $precio 		= $_POST['txtPrecio'];
+		
+    $idCliente  	= $_POST['txtidCliente'];
+	$idAuto	        = $_POST['txtidAuto'];
+	$precio 	    = $_POST['txtprecio'];
+    $fechainicio 	= $_POST['txtfechainicio'];
+    $fechaFinal 	= $_POST['txtfechaFinal'];
+    $estadoEntrega 	= $_POST['selestadoEntrega'];
+    
 
-       
-
-		$objAutos->traerAutos($idRegistro);
-		$objAutos->marca        = $marca;
-		$objAutos->modelo 	    = $modelo;
-		$objAutos->descripcion 	= $descripcion;
-		$objAutos->foto 	    = $foto;
-		$objAutos->pasajeros 	= $pasajeros;
-		$objAutos->tipovehiculo	= $tipovehiculo;
-		$objAutos->precio		= $precio;
+		$objVentas->traerVenta($idRegistro);
+		$objVentas->idCliente   	= $idCliente;
+		$objVentas->idAuto	    	= $idAuto;
+		$objVentas->precio      	= $precio;
+		$objVentas->fechainicio		= $fechainicio;
+        $objVentas->fechaFinal		= $fechaFinal;
+        $objVentas->estadoEntrega   = $estadoEntrega;
 
 		if(isset($_POST['eliminar']) && $_POST['eliminar'] == "ok" ){
-			$objAutos->modificarEstadoBorrado();
+			$objVentas->modificarEstadoBorrado();
 		}
-		$respuesta = $objAutos->guardarAuto();
+		$respuesta = $objVentas->guardarVentas();
 
 	}
 }
@@ -130,7 +111,7 @@ if(isset($_GET['accion']) && $_GET['accion'] == "Buscar"){
 }
 
 
-$totalRegistros = $objAutos->totalAutos($arrayFiltros);
+$totalRegistros = $objVentas->totalVentas($arrayFiltros);
 
 if(isset($_GET['pag'])){
 
@@ -160,16 +141,14 @@ if(isset($_GET['pag'])){
 
 }
 
-$listaAutos = $objAutos->listarAutos($arrayFiltros);
-
-$listarTipoVehiculos = $objAutos->listarTipoVehiculos($arrayFiltros);
-$listarTipoVehiculos= $objAutos->listarTipoVehiculos();
+$listaVentas = $objVentas->listarVentas($arrayFiltros);
+$listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 
 ?>
 
 	<div class="section no-pad-bot" id="index-banner">
 		<br><br>
-		<h1 class="header center orange-text">Autos</h1>			
+		<h1 class="header center orange-text">Ventas</h1>			
 		<br>
 		<br>
 	</div>
@@ -193,10 +172,10 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 			<div class="row red lighten-5">
 				<form class="col s12" action="backend.php" method="POST">
 					<div class="input-field col s12">
-						<h3>Eliminar el Auto:<?=$objAutos->marca?>?</h3>
+						<h3>Eliminar la Venta:<?=$objVentas->ventas?>?</h3>
 					</div>					
 					<input type="hidden" id="idAccion" name="accion" value="ConfirmarEliminar">
-					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objAutos->obtenerIdRegistro()?>">
+					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objVentas->obtenerIdRegistro()?>">
 					<button class="btn waves-effect waves-light red darken-3" type="submit">Eliminar
 						<i class="material-icons right">delete_forever</i>
 					</button>	
@@ -212,51 +191,41 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 			<div class="row">
 				<form class="col s12" action="backend.php" method="POST">
 					<div class="input-field col s12">
-						<h3>Ingresar Auto</h3>
+						<h3>Ingresar Venta</h3>
 					</div>
 					<div class="input-field col s12">
-						<input placeholder="Marca del Auto" name="txtMarca" id="first_name" type="text" class="validate" value="<?=$objAutos->marca?>">
-						<label for="first_name">Marca</label>
+						<input placeholder="idCliente" name="txtidCliente" id="first_name" type="text" class="validate" value="<?=$objVentas->idCliente?>">
+						<label for="first_name">Cliente</label>
 					</div>
 					<div class="input-field col s12">
-						<input placeholder="Apellidos Cliente" name="txtApellidos" id="first_name" type="text" class="validate" value="<?=$objAutos->modelo?>">
-						<label for="first_name">Modelo</label>
+						<input placeholder="idAuto" name="txtidAuto" id="first_name" type="text" class="validate" value="<?=$objVentas->idAuto?>">
+						<label for="first_name">Autos</label>
 					</div>
-					<div class="input-field col s12">
-						<input placeholder="Descripcion del Auto" name="txtDescripcion" id="first_name" type="text" class="validate" value="<?=$objAutos->descripcion?>">
-						<label for="first_name">Descripcion</label>
-
-                        <div class="file-field input-field col s12">
-				    		<div class="btn">
-								<span>Sube aqui la imagen del Auto</span>
-								<input type="file" name="txtFoto" placeholder="Imagen del Auto">
-							</div>
-							<div class="file-path-wrapper">
-								<input class="file-path validate" type="text">
-							</div>
-					    </div>
-
-					<div class="input-field col s12">
-						<input placeholder="Cantidad de Pasajeros" name="txtPasajeros" id="first_name" type="text" class="validate" value="<?=$objAutos->pasajeros?>">
-						<label for="first_name">Cantidad de Pasajeros</label>
-												
-						</div>
-						<div class="input-field col s12">
-							<select name="txtTipoVehiculo">
-<?php
-								foreach($listarTipoVehiculos as $tipovehiculo => $tipovehiculo){
-?>
-									<option value="<?=$tipovehiculo?>"><?=$tipovehiculo?></option>
- <?PHP
-								}
-?>	
-							</select>
-
-
-
-					<div class="input-field col s12">
-						<input placeholder="Precio" name="txtPrecio" id="first_name" type="text" class="validate" value="<?=$objAutos->precio?>">
+                    <div class="input-field col s12">
+						<input placeholder="precio" name="txtprecio" id="first_name" type="text" class="validate" value="<?=$objVentas->precio?>">
 						<label for="first_name">Precio</label>
+					</div>
+                    <div class="input-field col s12">
+						<input placeholder="fechainicio" name="txtfechainicio" id="first_name" type="text" class="validate" value="<?=$objVentas->fechainicio?>">
+						<label for="first_name">Fecha de Inicio</label>
+					</div>
+                    <div class="input-field col s12">
+						<input placeholder="fechaFinal" name="txtfechaFinal" id="first_name" type="text" class="validate" value="<?=$objVentas->fechaFinal?>">
+						<label for="first_name">Fecha de Finalizacion</label>
+					</div>
+					<div class="input-field col s12">
+						<select name="selestadoEntrega">
+
+<?php
+							foreach($listarEstadoEntrega as $estadoEntrega => $estadoEntrega){
+?>
+								<option value="<?=$estadoEntrega?>"><?=$estadoEntrega?></option>
+
+<?PHP
+							}
+?>	
+						</select>
+						<label for="first_name">Estado de Entrega</label>
 					</div>
 					<div class="input-field col s12">
 						<div class="switch">
@@ -270,7 +239,7 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 					</div>
 
 					<input type="hidden" id="idAccion" name="accion" value="Guardar">
-					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objAutos->obtenerIdRegistro()?>">
+					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objUsuarios->obtenerIdRegistro()?>">
 					<button class="btn waves-effect waves-light cyan darken-3" type="submit">Guardar
 						<i class="material-icons right">send</i>
 					</button>	
@@ -304,56 +273,52 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 					</tr>
 					<tr class="blue darken-3">
 						<th>#Id Registro</th>
-						<th>Marca</th>
-						<th>Modelo</th>
-						<th>Descripcion</th>
-						<th>Foto</th>
-						<th>Pasajeros</th>
-						<th>Tipo de Vehiculo</th>
+						<th>idCliente</th>
+						<th>idAuto</th>
 						<th>Precio</th>
-						<th>Estado</th>
-						<th>Acciones</th>
+						<th>Fecha de Inicio</th>
+						<th>Fecha de Finalizacion</th>
+						<th>Estado de entrega</th>
+                        <th>Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
 <?php
-				foreach($listaAutos as $Autos){
+				foreach($listaVentas as $ventas){
 ?>
 					<tr>
-						<td><?=$Autos['idAuto']?></td>	
-						<td><?=$Autos['marca']?></td>
-						<td><?=$Autos['modelo']?></td>
-						<td><?=$Autos['descripcion']?></td>
-						<td>
-							<img src="Imagenes<?=$Autos['foto']?>"; width="50px"  >
-						</td>
-						<td><?=$Autos['pasajeros']?></td>
-						<td><?=$Autos['tipovehiculo']?></td>
-						<td><?=$Autos['precio']?></td>
-						<td><?=$Autos['estadoRegistro']?></td>
+						<td><?=$ventas['idVenta']?></td>	
+						<td><?=$ventas['idCliente']?></td>
+						<td><?=$ventas['idAuto']?></td>
+						<td><?=$ventas['precio']?></td>
+						<td><?=$ventas['fechaInicio']?></td>
+                        <td><?=$ventas['fechaFinal']?></td>
+						<td><?=$ventas['estadoEntrega']?></td>
+                        <td><?=$ventas['estadoRegistro']?></td>
 						<td>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Eliminar">
-								<input type="hidden" name="idRegistro" value="<?=$Autos['idAutos']?>">
+								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
 								<button class="btn-floating waves-effect waves-light red darken-3" type="submit" name="action">
 									<i class="material-icons right">delete_forever</i>
 								</button>
 							</form>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Editar">
-								<input type="hidden" name="idRegistro" value="<?=$Autos['idAutos']?>">
+								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
 								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
 									<i class="material-icons right">edit</i>
 								</button>
 							</form>
-                        </td>
+                            
+						</td>
 						
 					</tr>					
 <?php
 				}
 ?>
 					<tr>
-						<td colspan="8">
+						<td colspan=12">
 							<span class="right"><?=$totalRegistros?></span>
 							<ul class="pagination right">
 								<li class="waves-effect">
@@ -394,48 +359,41 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 				<div class="row">
 					<form class="col s12" action="backend.php" method="POST">
 						<div class="input-field col s12">
-							<h3>Ingresar Autos</h3>
+							<h3>Ingresar Venta</h3>
 						</div>
 						<div class="input-field col s12">
-							<input placeholder="Marca" name="txtMarca" id="first_name" type="text" class="validate">
-							<label for="first_name">Marca</label>
+							<input placeholder="idCliente" name="txtidCliente" id="first_name" type="text" class="validate">
+							<label for="first_name">idCliente</label>
 						</div>
 						<div class="input-field col s12">
-							<input placeholder="Modelo" name="txtModelo" id="first_name" type="text" class="validate">
-							<label for="first_name">Modelo</label>
+							<input placeholder="idAuto" name="txtidAuto" id="first_name" type="text" class="validate">
+							<label for="first_name">idAuto</label>
+						</div>
+                        <div class="input-field col s12">
+							<input placeholder="precio" name="txtprecio" id="first_name" type="text" class="validate">
+							<label for="first_name">Precio</label>
+						</div>
+                        <div class="input-field col s12">
+							<input placeholder="fechainicio" name="txtfechainicio" id="first_name" type="date" class="validate">
+							<label for="first_name">Fecha de Inicio </label>
+						</div>
+                        <div class="input-field col s12">
+							<input placeholder="fechaFinal" name="txtfechaFinal" id="first_name" type="date" class="validate">
+							<label for="first_name">Fecha de Finalizacion</label>
 						</div>
 						<div class="input-field col s12">
-							<input placeholder="Descripcion" name="txtDescripcion" id="first_name" type="text" class="validate">
-							<label for="first_name">Descripcion</label>
-						</div>
-						<div class="file-field input-field col s12">
-				    		<div class="btn">
-								<span>Sube Aqui la imagen del Auto</span>
-								<input type="file" name="txtFoto" placeholder="imagen">
-							</div>
-							<div class="file-path-wrapper">
-								<input class="file-path validate" type="text">
-							</div>
-					    </div>
-						<div class="input-field col s12">
-							<input placeholder="Pasajeros" name="txtPasajeros" id="first_name" type="text" class="validate">
-							<label for="first_name">Pasajeros</label>
-						</div>
-						<div class="input-field col s12">
-							<select name="txtTipoVehiculo">
+							<select name="selestadoEntrega">
 <?php
-								foreach($listarTipoVehiculos as $tipovehiculo => $tipovehiculo){
+								foreach($listarEstadoEntrega as $estadoEntrega => $estadoEntrega){
 ?>
-									<option value="<?=$tipovehiculo?>"><?=$tipovehiculo?></option>
+									<option value="<?=$estadoEntrega?>"><?=$estadoEntrega?></option>
  <?PHP
 								}
 ?>	
 							</select>
-					</div>
-						<div class="input-field col s12">
-							<input placeholder="Precio" name="txtPrecio" id="first_name" type="text" class="validate">
-							<label for="first_name">Precio</label>
+							<label for="first_name">Estado Entrega</label>
 						</div>
+						
 						<input type="hidden" id="idAccion" name="accion" value="Ingresar" >
 						<button class="btn waves-effect waves-light cyan darken-3" type="submit">Enviar
 							<i class="material-icons right">send</i>
@@ -447,3 +405,4 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat  white-text">Cancelar</a>
 			</div>
 		</div>
+
