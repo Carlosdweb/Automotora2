@@ -8,17 +8,17 @@ $respuesta = "";
 
 if(isset($_POST['accion']) && $_POST['accion'] == "Ingresar"){
 
-	$imagen 	= "";
+	$imagen = "";
 
 	if( isset($_FILES['txtFoto']['name']) ){
 		$ruta = "Imagenes/".$_FILES['txtFoto']['name'];
 	
 		if(copy($_FILES['txtFoto']['tmp_name'], $ruta)){
 			
-			$imagen 	= $_FILES['txtFoto']['name'];
+			$imagen = $_FILES['txtFoto']['name'];
 
 		}else{
-			print_r("Dio Error al subir la imagen");
+			print_r("Error al subir la imagen");
 		
 		}
 	}
@@ -26,7 +26,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Ingresar"){
 	$marca 			= $_POST['txtMarca'];
     $modelo 		= $_POST['txtModelo'];
     $descripcion 	= $_POST['txtDescripcion'];
-    $foto       	= $_POST['txtFoto'];
+    $foto       	= $imagen;
     $pasajeros 	    = $_POST['txtPasajeros'];
 	$tipovehiculo   = $_POST['txtTipoVehiculo'];
 	$precio 		= $_POST['txtPrecio'];
@@ -89,8 +89,8 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Guardar"){
 	
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 
-		$idRegistro 	= $_POST['idRegistro'];		
-        $marca 			= $_POST['txtMarca'];
+		$idRegistro 	= $_POST['idRegistro'];	
+	    $marca 			= $_POST['txtMarca'];
         $modelo 		= $_POST['txtModelo'];
         $descripcion 	= $_POST['txtDescripcion'];
         $foto       	= $_POST['txtFoto'];
@@ -210,7 +210,7 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 	if(isset($_POST['accion']) && $_POST['accion'] == "Editar" && isset($_POST['idRegistro']) && $_POST['idRegistro'] != ""){
 ?>
 			<div class="row">
-				<form class="col s12" action="backend.php" method="POST">
+				<form class="col s12" action="backend.php" method="POST" >
 					<div class="input-field col s12">
 						<h3>Ingresar Auto</h3>
 					</div>
@@ -219,7 +219,7 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 						<label for="first_name">Marca</label>
 					</div>
 					<div class="input-field col s12">
-						<input placeholder="Apellidos Cliente" name="txtApellidos" id="first_name" type="text" class="validate" value="<?=$objAutos->modelo?>">
+						<input placeholder="Modelo auto" name="txtModelo" id="first_name" type="text" class="validate" value="<?=$objAutos->modelo?>">
 						<label for="first_name">Modelo</label>
 					</div>
 					<div class="input-field col s12">
@@ -270,7 +270,7 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 					</div>
 
 					<input type="hidden" id="idAccion" name="accion" value="Guardar">
-					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objAutos->obtenerIdRegistro()?>">
+					<input type="hidden" id="idAuto" name="idRegistro" value="<?=$objAutos->obtenerIdRegistro()?>">
 					<button class="btn waves-effect waves-light cyan darken-3" type="submit">Guardar
 						<i class="material-icons right">send</i>
 					</button>	
@@ -325,7 +325,7 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 						<td><?=$Autos['modelo']?></td>
 						<td><?=$Autos['descripcion']?></td>
 						<td>
-							<img src="Imagenes<?=$Autos['foto']?>"; width="50px"  >
+							<img src="Imagenes/<?=$Autos['foto']?>"; width="50px"  >
 						</td>
 						<td><?=$Autos['pasajeros']?></td>
 						<td><?=$Autos['tipovehiculo']?></td>
@@ -334,14 +334,14 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 						<td>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Eliminar">
-								<input type="hidden" name="idRegistro" value="<?=$Autos['idAutos']?>">
+								<input type="hidden" name="idRegistro" value="<?=$Autos['idAuto']?>">
 								<button class="btn-floating waves-effect waves-light red darken-3" type="submit" name="action">
 									<i class="material-icons right">delete_forever</i>
 								</button>
 							</form>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Editar">
-								<input type="hidden" name="idRegistro" value="<?=$Autos['idAutos']?>">
+								<input type="hidden" name="idRegistro" value="<?=$Autos['idAuto']?>">
 								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
 									<i class="material-icons right">edit</i>
 								</button>
@@ -353,11 +353,12 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 				}
 ?>
 					<tr>
-						<td colspan="8">
+						<td colspan="12">
 							<span class="right"><?=$totalRegistros?></span>
 							<ul class="pagination right">
 								<li class="waves-effect">
-									<a href="backend.php?pag=<?=$PAGINAANTERIOR?>&accion=Buscar&txtBuscar=<?=$BUSCAR?>"><i class="material-icons">chevron_left</i></a>
+									<a href="backend.php?pag=<?=$PAGINAANTERIOR?>&accion=Buscar&txtBuscar=<?=$BUSCAR?>">
+									<i class="material-icons">chevron_left</i></a>
 								</li>
 <?php
 								for($i = 0; $i < $limitPagina ; $i++){
@@ -392,7 +393,7 @@ $listarTipoVehiculos= $objAutos->listarTipoVehiculos();
 		 <div id="modal1" class="modal">
 			<div class="modal-content">				
 				<div class="row">
-					<form class="col s12" action="backend.php" method="POST">
+					<form class="col s12" action="backend.php" method="POST" enctype="multipart/form-data" >
 						<div class="input-field col s12">
 							<h3>Ingresar Autos</h3>
 						</div>

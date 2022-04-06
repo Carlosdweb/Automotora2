@@ -7,6 +7,7 @@ require_once("Modelos/Usuarios.php");
 
 @session_start();
 
+
 if(isset($_GET['sec'])){
 
 	$_SESSION['seccion'] = $_GET['sec'];
@@ -58,6 +59,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 	}
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

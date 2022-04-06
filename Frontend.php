@@ -1,6 +1,7 @@
 <?PHP
 
 require_once("Modelos/Autos.php");
+require_once("Modelos/Clientes.php");
 
 $objAutos = new autos();
 
@@ -128,11 +129,13 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 <?PHP
 			      	foreach($listaRandom as $Autos){
 ?>
-					      <div class="col s12 m2">
+					      <div class="col s2 m6">
 						        <div class="icon-block">
+                        <h1 class="center"><?=$Autos['marca']?></h1>
 							          <img src="Imagenes/<?=$Autos['foto']?>" width="460px" height="280" />
-							          <h5 class="center"><?=$Autos['marca']?></h5>
-							          <p class="light"><?=substr($Autos['descripcion'], 0, 100)?>...</p>
+                        <li><a class="waves-effect waves-light btn modal-trigger green darken-3" href="#modal2">Reservar</a></li>
+							          <h5 class="center"><?=$Autos['precio']?></h5>
+                        <p class="light"><?=substr($Autos['descripcion'], 0, 100)?>...</p>
 						        </div>
 					      </div>
 <?PHP
@@ -150,7 +153,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 <div id="modal3" class="modal">
 			<div class="modal-content">				
 				<div class="row">
-					<form class="col s12" action="backend.php" method="POST">
+					<form class="col s12" action="Frontend.php" method="POST">
 						<div class="input-field col s12">
 							<h3>Ingresar Clientes</h3>
 						</div>

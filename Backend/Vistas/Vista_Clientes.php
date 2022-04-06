@@ -319,7 +319,8 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 							<span class="right"><?=$totalRegistros?></span>
 							<ul class="pagination right">
 								<li class="waves-effect">
-									<a href="backend.php?pag=<?=$PAGINAANTERIOR?>&accion=Buscar&txtBuscar=<?=$BUSCAR?>"><i class="material-icons">chevron_left</i></a>
+									<a href="backend.php?pag=<?=$PAGINAANTERIOR?>&accion=Buscar&txtBuscar=<?=$BUSCAR?>">
+									<i class="material-icons">chevron_left</i></a>
 								</li>
 <?php
 								for($i = 0; $i < $limitPagina ; $i++){

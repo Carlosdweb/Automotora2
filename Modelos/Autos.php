@@ -7,7 +7,7 @@ class Autos extends generico{
 	/*
 		Esta clase maneja los autos en el sistema.
 	*/
-
+	public $idAutp;
 	// Es la marca del auto
 	public $marca;
 	// Modelo del auto
@@ -27,6 +27,7 @@ class Autos extends generico{
 	public function constructor($arrayDatos = array()){
 
 		parent::constructor($arrayDatos);
+		$this->idRegistro     = $this->chequeadorConstructor($arrayDatos, 'idRegistro', ''); 
 		$this->marca          = $this->chequeadorConstructor($arrayDatos, 'marca', ''); 
 		$this->modelo   	  = $this->chequeadorConstructor($arrayDatos, 'modelo', ''); 
 		$this->descripcion	  = $this->chequeadorConstructor($arrayDatos, 'descripcion', ''); 
@@ -34,7 +35,7 @@ class Autos extends generico{
         $this->pasajeros	  = $this->chequeadorConstructor($arrayDatos, 'pasajeros'); 
         $this->tipovehiculo	  = $this->chequeadorConstructor($arrayDatos, 'tipovehiculo','');
         $this->precio	      = $this->chequeadorConstructor($arrayDatos, 'precio'); 
-		$this->estadoRegistro = $this->chequeadorConstructor($arrayDatos, 'estado', 'Ingresado'); 
+		$this->estadoRegistro = $this->chequeadorConstructor($arrayDatos, 'estadoRegistro', 'Ingresado'); 
 	}
 
 	public function ingresarAuto(){
@@ -45,8 +46,8 @@ class Autos extends generico{
 		*/
 		try{
 
-			$varSQL = 'SELECT * FROM autos WHERE marca = :marca AND modelo = :modelo;';		
-			$arrayAutos = array('marca' => $this->marca, 'modelo' => $this->modelo );
+			$varSQL = 'SELECT * FROM autos WHERE idAuto = :idAuto AND marca = :marca;';		
+			$arrayAutos = array('idAuto' => $this->idRegistro, 'marca' => $this->marca );
 			$respuesta = $this->traerListado($varSQL, $arrayAutos);
 
 			if(!empty($respuesta)){
@@ -57,7 +58,7 @@ class Autos extends generico{
 			}
 
 			$fecha = date("Y-m-d h:i:s");
-			$sql = "INSERT INTO auto SET
+			$sql = "INSERT INTO autos SET
 						marca			= :marca,
 						modelo  		= :modelo,
 						descripcion		= :descripcion,
@@ -74,7 +75,7 @@ class Autos extends generico{
 				"marca"		    	=>	$this->marca,
 				"modelo" 			=>  $this->modelo,
 				"descripcion"		=>  $this->descripcion,				
-				"foto       "		=>  $this->foto,				
+				"foto"				=>  $this->foto,				
 				"pasajeros"			=>	$this->pasajeros,
                 "tipovehiculo"		=>	$this->tipovehiculo,
                 "precio"			=>	$this->precio,
@@ -88,12 +89,12 @@ class Autos extends generico{
 				$retorno = "Se ingreso el auto correctamente";
 			}else{
 				$retorno = "Error al ingresar el auto";
-
 			}
 			return $retorno;
 
 		}catch(PDOException $e){
 			$retorno = "Ocurrio Un error al ingresar el auto";
+			
 			return $retorno;
 
 		}
@@ -107,7 +108,7 @@ class Autos extends generico{
 
 		$respuesta = $this->traerListado($varSQL, $arrayAutos);
 
-		$this->idRegistro 		= $respuesta[0]['idAuto'];
+		$this->idRegistro		= $respuesta[0]['idAuto'];
 		$this->marca			= $respuesta[0]['marca'];
 		$this->modelo			= $respuesta[0]['modelo'];
 		$this->descripcion		= $respuesta[0]['descripcion'];
@@ -136,7 +137,7 @@ class Autos extends generico{
 					estadoRegistro	= :estadoRegistro,
 					fechaEdicion	= :fechaEdicion,
 					historial 		= ''
-				WHERE idAuto		 = :idAuto;
+				WHERE idAuto		= :idAuto;
 			";
 
 
@@ -150,7 +151,7 @@ class Autos extends generico{
             "precio"		=>	$this->precio,
 			"estadoRegistro"=>	$this->estadoRegistro,
 			"fechaEdicion"	=>  $fecha,
-			"idAuto" 		=>  $this->idAuto,
+			"idAuto" 		=>  $this->idRegistro,
 		);	
 
 		$respuesta = $this->ejecutarSentencia($sql, $arrayAuto);
