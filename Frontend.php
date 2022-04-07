@@ -5,10 +5,9 @@ require_once("Modelos/Clientes.php");
 
 $objAutos = new autos();
 
-$arraFilto = ['limite' => "6"];
+$arraFilto = ['limite' => "100"];
 
 $listaRandom = $objAutos->listarAutos($arraFilto);
-
 
 
 
@@ -94,7 +93,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
          <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
+    </div>    
   </nav>
 
         <div class="container section">
@@ -105,14 +104,10 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
               <div class="carousel carousel-slider">
 
                   <a href="" calss="carpusel-item">
-                    <img src="imagenes/cammaro negro.png" alt="">
+                    <img src="imagenes/banner.jpg" alt="">
                   </a>
 
-                  <a href="" calss="carpusel-item">
-                    <img src="imagenes/renault clio blanco.jpg" alt="">
-                  </a>
-
-              </div>
+                 </div>
 
             </div>
           </div>
@@ -131,11 +126,13 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 ?>
 					      <div class="col s2 m6">
 						        <div class="icon-block">
-                        <h1 class="center"><?=$Autos['marca']?></h1>
-							          <img src="Imagenes/<?=$Autos['foto']?>" width="460px" height="280" />
-                        <li><a class="waves-effect waves-light btn modal-trigger green darken-3" href="#modal2">Reservar</a></li>
-							          <h5 class="center"><?=$Autos['precio']?></h5>
-                        <p class="light"><?=substr($Autos['descripcion'], 0, 100)?>...</p>
+                        <h3 class="center"><?=$Autos['marca']?> <?=$Autos['modelo']?></h3>
+                        <img src="Imagenes/<?=$Autos['foto']?>" width="460px" height="280"/>
+                        <li><h5><p class="right red-text ">$ <?=($Autos['precio'])?></p></h5></h5><a class="waves-effect waves-light btn modal-trigger green darken-3" href="#modal1">Reservar</a></li>
+							          <p class="center"><?=substr($Autos['descripcion'], 0, 100)?>...</p>
+                        <?php
+
+                        ?>
 						        </div>
 					      </div>
 <?PHP
@@ -153,7 +150,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 <div id="modal3" class="modal">
 			<div class="modal-content">				
 				<div class="row">
-					<form class="col s12" action="Frontend.php" method="POST">
+					<form class="col s12" method="POST"action="Frontend.php" >
 						<div class="input-field col s12">
 							<h3>Ingresar Clientes</h3>
 						</div>
@@ -226,6 +223,38 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 			  	<a href="#!" class="modal-close waves-effect waves-green btn-flat  white-text">Cancelar</a>
     	</div>
   </div>      
+
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+			<div class="modal-content">				
+				<div class="row">
+					<form class="col s12" action="Frontend.php" method="POST">
+						<div class="input-field col s12">
+							<h3>Reservar Auto</h3>
+					
+						<div class="input-field col s12">
+							<input placeholder="Desde" name="txtfechainicio" id="first_name" type="date" class="validate">
+							<label for="first_name">Desde</label>
+						</div>
+
+						</div>
+						  <div class="input-field col s12">
+						  	<input placeholder="Hasta" name="txtfechaFinal" id="first_name" type="date" class="validate">
+						  	<label for="first_name">Hasta</label>
+					  	</div>
+					    	<input type="hidden" id="idAccion" name="accion" value="Reservar" >
+					      	<button class="btn waves-effect waves-light cyan darken-3" type="submit">Enviar
+					  	    	<i class="material-icons right">send</i>
+						      </button>	
+					</form>
+				</div>
+			</div>
+	    	<div class="modal-footer blue darken-4">
+			  	<a href="#!" class="modal-close waves-effect waves-green btn-flat  white-text">Cancelar</a>
+    	</div>
+  </div>      
+
 
         
         <div class="col s12 m4">
