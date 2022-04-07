@@ -107,7 +107,7 @@ class clientes extends generico{
 
 		$respuesta = $this->traerListado($varSQL, $arrayClientes);
 
-		$this->idRegistro 		= $respuesta[0]['idClinete'];
+		$this->idCliente 		= $respuesta[0]['idRegistro'];
 		$this->nombre			= $respuesta[0]['nombre'];
 		$this->apellidos		= $respuesta[0]['apellidos'];
 		$this->documento		= $respuesta[0]['documento'];

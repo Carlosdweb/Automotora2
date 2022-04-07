@@ -252,7 +252,7 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 			<table class="striped">
 				<thead>
 					<tr class="blue darken-3">
-						<th colspan="12">
+						<th colspan="12	">
 							<div class="row">
 								<div class="col s6">
 									<a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal1">Ingresar</a>
@@ -279,6 +279,7 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 						<th>Fecha de Inicio</th>
 						<th>Fecha de Finalizacion</th>
 						<th>Estado de entrega</th>
+						<th>Estado</th>
                         <th>Acciones</th>
 					</tr>
 				</thead>

@@ -233,7 +233,7 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 					</div>
 
 					<input type="hidden" id="idAccion" name="accion" value="Guardar">
-					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objClientes->obtenerIdRegistro()?>">
+					<input type="hidden" id="idCliente" name="idRegistro" value="<?=$objClientes->obtenerIdRegistro()?>">
 					<button class="btn waves-effect waves-light cyan darken-3" type="submit">Guardar
 						<i class="material-icons right">send</i>
 					</button>	
@@ -295,14 +295,14 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 						<td>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Eliminar">
-								<input type="hidden" name="idRegistro" value="<?=$clientes['idClientes']?>">
+								<input type="hidden" name="idRegistro" value="<?=$clientes['idCliente']?>">
 								<button class="btn-floating waves-effect waves-light red darken-3" type="submit" name="action">
 									<i class="material-icons right">delete_forever</i>
 								</button>
 							</form>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Editar">
-								<input type="hidden" name="idRegistro" value="<?=$clientes['idClientes']?>">
+								<input type="hidden" name="idRegistro" value="<?=$clientes['idCliente']?>">
 								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
 									<i class="material-icons right">edit</i>
 								</button>
