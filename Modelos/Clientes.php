@@ -4,56 +4,58 @@ require_once("Generico.php");
 
 class clientes extends generico{
 
-/*
-		Esta clase maneja a los clientes del sistema.
+	/*
+		Esta clase maneja a los Clientes  del sistema.
 	*/
-
-
-    // Nombre del cliente
+	public $idCliente;
+	// Nombre del usuario
 	public $nombre;
+	
+	public $apellidos;
 
-    public $apellidos;
+	public $documento;
 
-    public $documento;
-    // fecha de nacimiento en formato YYYY-mm-dd
-    public $fechaNacimiento;
+	public $FechaNacimiento;
 
-    public $telefono;
-	// Es el Email con el que se loguea el cliente
+	public $telefono;
+	// Es el Email con el que se loguea el usuario
 	public $email;
-
+	
 	public $clave;
+
+	
 
 
 	public function constructor($arrayDatos = array()){
 
 		parent::constructor($arrayDatos);
-		$this->nombre			= $this->chequeadorConstructor($arrayDatos, 'nombre', ''); 
+		$this->nombre 			= $this->chequeadorConstructor($arrayDatos, 'nombre', ''); 
+		$this->email			= $this->chequeadorConstructor($arrayDatos, 'email', ''); 
 		$this->apellidos		= $this->chequeadorConstructor($arrayDatos, 'apellidos', ''); 
 		$this->documento		= $this->chequeadorConstructor($arrayDatos, 'documento', ''); 
 		$this->fechaNacimiento	= $this->chequeadorConstructor($arrayDatos, 'fechaNacimiento', ''); 
-		$this->telefono		    = $this->chequeadorConstructor($arrayDatos, 'telefono', ''); 
-		$this->email 			= $this->chequeadorConstructor($arrayDatos, 'email', ''); 
+		$this->telefono			= $this->chequeadorConstructor($arrayDatos, 'telefono', ''); 
 		$this->clave			= $this->chequeadorConstructor($arrayDatos, 'clave', ''); 
 		$this->estadoRegistro 	= $this->chequeadorConstructor($arrayDatos, 'estado', 'Ingresado'); 
 	}
 
 	public function ingresarClientes(){
+		
 		/*
-			Primero evaluo si el autor esta ingresado
-			1) chequeo que exista el cliente con documento y Email
+			Primero evaluo si el usuario esta ingresado
+			1) chequeo que exista el usuario con nombre y el email
 		*/
 		try{
 
-			$varSQL = 'SELECT * FROM clientes WHERE documento = :documento OR email = :email;';		
-			$arrayClientes = array('documento' => $this->documento, 'email' => $this->email );
-			$respuesta = $this->traerListado($varSQL, $arrayClientes);
+			$varSQL = 'SELECT * FROM clientes WHERE nombre = :nombre AND email = :email;';		
+			$arrayCliente = array('nombre' => $this->nombre, 'email' => $this->email );
+			$respuesta = $this->traerListado($varSQL, $arrayCliente);
 
 			if(!empty($respuesta)){
 				/*
-					En caso que tenga registro entro aca y devuelvo que ya ese autor esta ingresado
+					En caso que tenga registro entro aca y devuelvo que ya ese usuario esta ingresado
 				*/
-				return "Ya esta ingresado el cliente o el mail";
+				return "Ya esta ingresado el Cliente";
 			}
 
 			$fecha = date("Y-m-d h:i:s");
@@ -62,9 +64,9 @@ class clientes extends generico{
 						apellidos		= :apellidos,
 						documento		= :documento,
 						fechaNacimiento	= :fechaNacimiento,
-                        telefono    	= :telefono,
-						email			= :email,
-						clave			= :clave,						
+						telefono		= :telefono,
+						email  			= :email,
+						clave			= :clave,
 						estadoRegistro	= :estadoRegistro,
 						fechaEdicion	= :fechaEdicion,
 						historial 		= '';
@@ -72,94 +74,96 @@ class clientes extends generico{
 
 			$clave = md5($this->clave);	
 
-			$arrayClientes = array(
+			$arrayCliente = array(
 				"nombre"			=>	$this->nombre,
-				"apellidos" 		=>  $this->apellidos,
-				"documento" 		=>  $this->documento,
-				"fechaNacimiento" 	=>  $this->fechaNacimiento,
-                "telefono"      	=>  $this->telefono,
+				"apellidos"			=>	$this->apellidos,
+				"documento"			=>	$this->documento,
+				"fechaNacimiento"	=>	$this->fechaNacimiento,
+				"telefono" 			=>  $this->telefono,
 				"email" 			=>  $this->email,
-				"clave"				=>	$clave,		
+				"clave"				=>	$clave,				
 				"estadoRegistro"	=>	$this->estadoRegistro,
 				"fechaEdicion"		=>  $fecha,
 			);	
 
-			$respuesta = $this->ejecutarSentencia($sql, $arrayClientes);
+			$respuesta = $this->ejecutarSentencia($sql, $arrayCliente);
 
 			if($respuesta == 1){
-				$retorno = "Se ingreso el clientes correctamente";
+				$retorno = "Se ingreso el Cliente correctamente";
 			}else{
-				$retorno = "Error al ingresar el clientes";
+				$retorno = "Error al ingresar el Cliente";
 			}
 			return $retorno;
 
 		}catch(PDOException $e){
-			$retorno = "Ocurrio Un error al ingresar clientes";
+			$retorno = "Ocurrio Un error al ingresar Cliente";
 			return $retorno;
 		}
 
-	}// ingresarClientes
+	}// ingresarCliente
 
 	public function traerClientes($idRegistro){
 		
-		$varSQL 		= 'SELECT * FROM clientes WHERE idCliente = :idCliente;';
-		$arrayClientes	= array('idCliente' => $idRegistro);
+		$varSQL 	= 'SELECT * FROM clientes WHERE idCliente = :idCliente;';
+		$arrayCliente = array('idCliente' => $idRegistro);
 
-		$respuesta = $this->traerListado($varSQL, $arrayClientes);
+		$respuesta = $this->traerListado($varSQL, $arrayCliente);
 
-		$this->idCliente 		= $respuesta[0]['idRegistro'];
+		$this->idRegistro 		= $respuesta[0]['idCliente'];
 		$this->nombre			= $respuesta[0]['nombre'];
 		$this->apellidos		= $respuesta[0]['apellidos'];
 		$this->documento		= $respuesta[0]['documento'];
 		$this->fechaNacimiento	= $respuesta[0]['fechaNacimiento'];
-        $this->telefono     	= $respuesta[0]['telefono'];
+		$this->telefono			= $respuesta[0]['telefono'];
 		$this->email			= $respuesta[0]['email'];
 		$this->clave			= $respuesta[0]['clave'];
 		$this->estadoRegistro	= $respuesta[0]['estadoRegistro'];
 
-	}// traerClientes
+	}// traerCliente
 
 
 	public function guardarClientes(){
-				
+		
+		
 		$fecha = date("Y-m-d h:i:s");
 
-		$sql = "UPDATE cliente SET
+		$sql = "UPDATE clientes SET
 					nombre			= :nombre,
-					apellidos  		= :apellidos,
+					apellidos		= :apellidos,
 					documento		= :documento,
 					fechaNacimiento	= :fechaNacimiento,
-                    telefono    	= :telefono,
-					email			= :email,
+					telefono		= :telefono,
+					email  			= :email,
 					clave			= :clave,
 					estadoRegistro	= :estado,
 					fechaEdicion	= :fechaEdicion,
 					historial 		= ''
-				WHERE idCliente = :idCliente;
+				WHERE idCliente     = :idCliente;
 			";
 
-		$arrayClientes = array(
-			"nombre"		=>	$this->nombre,
-			"apellidos" 	=>  $this->apellidos,
-			"documento"		=>	$this->documento,				
-			"fechaNacimiento"=>	$this->fechaNacimiento,
-            "telefono"      =>	$this->fechaNacimiento,
-			"email"			=>	$this->email,
-			"clave"			=>	$this->clave,
-			"estado"		=>	$this->estadoRegistro,
-			"fechaEdicion"	=>  $fecha,
-			"idCliente" 	=>  $this->idRegistro,
+
+		$arrayCliente = array(
+			"nombre"			=>	$this->nombre,
+			"apellidos"			=>	$this->apellidos,
+			"documento"			=>	$this->documento,
+			"fechaNacimiento"	=>	$this->fechaNacimiento,
+			"telefono"			=>	$this->nombre,
+			"email" 			=>  $this->email,
+			"clave"				=>	$this->clave,				
+			"estado"			=>	$this->estadoRegistro,
+			"fechaEdicion"		=>  $fecha,
+			"idCliente" 		=>  $this->idRegistro,
 		);	
 
-		$respuesta = $this->ejecutarSentencia($sql, $arrayClientes);
+		$respuesta = $this->ejecutarSentencia($sql, $arrayCliente);
 		if($respuesta == 1){
-			$retorno = "Se guardo el cliente correctamente";
+			$retorno = "Se guardo el Cliente correctamente";
 		}else{
 			$retorno = "Error al guardar el Cliente";
 		}
 		return $retorno;
 
-	}//guardarClientes
+	}//guardarCliente
 
 
 	public function listarClientes($filtos = array()){
@@ -178,7 +182,7 @@ class clientes extends generico{
 		}else{
 			$limite = 5;
 		}
-		//      SELECT * FROM autores LIMIT 0,10; 
+		//      SELECT * FROM usuarios LIMIT 0,10; 
 		$puntoSalida = $pagina * $limite;
 
 		$buscador = "";
@@ -188,11 +192,12 @@ class clientes extends generico{
 		
 		}
 
-		$varSQL = "SELECT * FROM clientes ".$buscador."  ORDER BY idCliente LIMIT ".$puntoSalida.",".$limite."";
+		$varSQL = "SELECT * FROM clientes ".$buscador."  ORDER BY nombre LIMIT ".$puntoSalida.",".$limite."";
+
 		$retorno = $this->traerListado($varSQL, array());
 		return $retorno;
 
-	}//listarClientes
+	}//listarUsuarios
 	
 	public function totalClientes($filtos = array()){
 		
@@ -202,6 +207,7 @@ class clientes extends generico{
 			$buscador = ' WHERE nombre LIKE "%'.$filtos['buscar'].'%" ';
 		
 		}
+
 		$varSQL = 'SELECT count(1) AS totalRegistros FROM clientes '.$buscador.'';
 		$respuesta = $this->traerListado($varSQL, array());
 		$retorno = $respuesta[0]['totalRegistros'];
@@ -210,22 +216,21 @@ class clientes extends generico{
 
 	}//totalClientes
 
-
+	
 	public function login($email, $clave){
-		
 		
 		$retorno = "";
 		$claMD5 = md5($clave);	
 
 		$varSQL 	= 'SELECT * FROM clientes WHERE email = :email AND clave = :clave ;';
-		$arrayClie 	= array('email' => $email, 'clave' => $claMD5);
+		$arrayClientes 	= array('email' => $email, 'clave' => $clave);
 
 		
-		$respuesta = $this->traerListado($varSQL, $arrayClie);
+		$respuesta = $this->traerListado($varSQL, $arrayClientes);
 
 		if(empty($respuesta)){
 			/*
-				En caso que tenga registro entro aca y devuelvo que ya ese cliente esta ingresado
+				En caso que tenga registro entro aca y devuelvo que ya ese usuario esta ingresado
 			*/
 			return "Error en las credenciales";
 		}

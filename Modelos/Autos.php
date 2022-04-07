@@ -7,7 +7,7 @@ class Autos extends generico{
 	/*
 		Esta clase maneja los autos en el sistema.
 	*/
-	public $idAutp;
+	public $idAuto;
 	// Es la marca del auto
 	public $marca;
 	// Modelo del auto
