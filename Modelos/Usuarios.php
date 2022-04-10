@@ -207,7 +207,7 @@ class usuarios extends generico{
 		$claMD5 = md5($clave);	
 
 		$varSQL 	= 'SELECT * FROM usuarios WHERE email = :email AND clave = :clave ;';
-		$arrayUsu 	= array('email' => $email, 'clave' => $clave);
+		$arrayUsu 	= array('email' => $email, 'clave' => $claMD5);
 
 		
 		$respuesta = $this->traerListado($varSQL, $arrayUsu);

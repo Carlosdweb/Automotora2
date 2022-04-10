@@ -16,7 +16,7 @@ class generico {
 
 	public function constructor($arrayDatos = array()){
 
-		$this->idRegistro 	= $this->chequeadorConstructor($arrayDatos, 'idRegistro', '0'); 
+		$this->idRegistro = $this->chequeadorConstructor($arrayDatos, 'idRegistro','0'); 
 		
 		if(isset($arrayDatos['estadoRegistro'])  && strtolower($arrayDatos['estadoRegistro']) == "borrado"){			
 			$this->modificarEstadoBorrado();
@@ -67,7 +67,7 @@ class generico {
 			ESte metodo lo que hace es realizar consulta select contra la base de datos para 
 			devolver lista de registros
 		*/
-		include("configuracion/configuracion.php");
+		include("Configuracion/Configuracion.php");
 
 		$clave = $ARRAYCONFIGURACION['MySQL']['password'];
 		$user = $ARRAYCONFIGURACION['MySQL']['user'];

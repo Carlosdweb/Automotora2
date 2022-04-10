@@ -15,7 +15,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Ingresar"){
     $idCliente  	= $_POST['txtidCliente'];
 	$idAuto	        = $_POST['txtidAuto'];
 	$precio 	    = $_POST['txtprecio'];
-    $fechainicio 	= $_POST['txtfechainicio'];
+    $fechaInicio 	= $_POST['txtfechaInicio'];
     $fechaFinal 	= $_POST['txtfechaFinal'];
     $estadoEntrega 	= $_POST['selestadoEntrega'];
    
@@ -26,7 +26,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Ingresar"){
 			'idCliente'		=> $idCliente, 
 			'idAuto'		=> $idAuto,
 			'precio'		=> $precio, 
-            'fechainicio'	=> $fechainicio, 
+            'fechaInicio'	=> $fechaInicio, 
             'fechaFinal'	=> $fechaFinal, 
             'estadoEntrega'	=> $estadoEntrega];
 			
@@ -73,11 +73,11 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Guardar"){
 	
 	if(isset($_POST['idRegistro']) && $_POST['idRegistro'] != "" ){
 
-		
+	$idRegistro 	= $_POST['idRegistro'];		
     $idCliente  	= $_POST['txtidCliente'];
 	$idAuto	        = $_POST['txtidAuto'];
 	$precio 	    = $_POST['txtprecio'];
-    $fechainicio 	= $_POST['txtfechainicio'];
+    $fechaInicio 	= $_POST['txtfechaInicio'];
     $fechaFinal 	= $_POST['txtfechaFinal'];
     $estadoEntrega 	= $_POST['selestadoEntrega'];
     
@@ -86,7 +86,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Guardar"){
 		$objVentas->idCliente   	= $idCliente;
 		$objVentas->idAuto	    	= $idAuto;
 		$objVentas->precio      	= $precio;
-		$objVentas->fechainicio		= $fechainicio;
+		$objVentas->fechaInicio		= $fechaInicio;
         $objVentas->fechaFinal		= $fechaFinal;
         $objVentas->estadoEntrega   = $estadoEntrega;
 
@@ -172,7 +172,7 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 			<div class="row red lighten-5">
 				<form class="col s12" action="backend.php" method="POST">
 					<div class="input-field col s12">
-						<h3>Eliminar la Venta:<?=$objVentas->ventas?>?</h3>
+						<h3>Eliminar la Venta:<?=$objVentas->idRegistro?>?</h3>
 					</div>					
 					<input type="hidden" id="idAccion" name="accion" value="ConfirmarEliminar">
 					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objVentas->obtenerIdRegistro()?>">
@@ -191,7 +191,7 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 			<div class="row">
 				<form class="col s12" action="backend.php" method="POST">
 					<div class="input-field col s12">
-						<h3>Ingresar Venta</h3>
+						<h3>Editar Venta</h3>
 					</div>
 					<div class="input-field col s12">
 						<input placeholder="idCliente" name="txtidCliente" id="first_name" type="text" class="validate" value="<?=$objVentas->idCliente?>">
@@ -206,11 +206,11 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 						<label for="first_name">Precio</label>
 					</div>
                     <div class="input-field col s12">
-						<input placeholder="fechainicio" name="txtfechainicio" id="first_name" type="text" class="validate" value="<?=$objVentas->fechainicio?>">
+						<input placeholder="fechaInicio" name="txtfechaInicio" id="first_name" type="date" class="validate" value="<?=$objVentas->fechaInicio?>">
 						<label for="first_name">Fecha de Inicio</label>
 					</div>
                     <div class="input-field col s12">
-						<input placeholder="fechaFinal" name="txtfechaFinal" id="first_name" type="text" class="validate" value="<?=$objVentas->fechaFinal?>">
+						<input placeholder="fechaFinal" name="txtfechaFinal" id="first_name" type="date" class="validate" value="<?=$objVentas->fechaFinal?>">
 						<label for="first_name">Fecha de Finalizacion</label>
 					</div>
 					<div class="input-field col s12">
@@ -239,7 +239,7 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 					</div>
 
 					<input type="hidden" id="idAccion" name="accion" value="Guardar">
-					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objUsuarios->obtenerIdRegistro()?>">
+					<input type="hidden" id="idRegistro" name="idRegistro" value="<?=$objVentas->obtenerIdRegistro()?>">
 					<button class="btn waves-effect waves-light cyan darken-3" type="submit">Guardar
 						<i class="material-icons right">send</i>
 					</button>	
@@ -299,14 +299,14 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 						<td>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Eliminar">
-								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
+								<input type="hidden" name="idRegistro" value="<?=$ventas['idVenta']?>">
 								<button class="btn-floating waves-effect waves-light red darken-3" type="submit" name="action">
 									<i class="material-icons right">delete_forever</i>
 								</button>
 							</form>
 							<form action="backend.php" method="POST">
 								<input type="hidden" name="accion" value="Editar">
-								<input type="hidden" name="idRegistro" value="<?=$usuarios['idUsuario']?>">
+								<input type="hidden" name="idRegistro" value="<?=$ventas['idVenta']?>">
 								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
 									<i class="material-icons right">edit</i>
 								</button>
@@ -376,7 +376,7 @@ $listarEstadoEntrega= $objVentas->listarEstadoEntrega();
 							<label for="first_name">Precio</label>
 						</div>
                         <div class="input-field col s12">
-							<input placeholder="fechainicio" name="txtfechainicio" id="first_name" type="date" class="validate">
+							<input placeholder="fechaInicio" name="txtfechaInicio" id="first_name" type="date" class="validate">
 							<label for="first_name">Fecha de Inicio </label>
 						</div>
                         <div class="input-field col s12">

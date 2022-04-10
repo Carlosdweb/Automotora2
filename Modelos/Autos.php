@@ -42,7 +42,7 @@ class Autos extends generico{
 		
 		/*
 			Primero evaluo si el auto esta ingresado
-			1) chequeo que exista el auto con la marca y el modelo (countryCode 3)
+			1) chequeo que exista el auto con la marca y el modelo
 		*/
 		try{
 

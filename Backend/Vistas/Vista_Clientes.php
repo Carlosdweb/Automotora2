@@ -11,7 +11,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Ingresar"){
 	$nombre 			= $_POST['txtNombre'];
     $apellidos 			= $_POST['txtApellidos'];
     $documento 			= $_POST['txtDocumento'];
-    $fechaNacimiento	= $_POST['txtFechaNacimiento'];
+    $fechaNacimiento	= $_POST['txtfechaNacimiento'];
     $telefono 			= $_POST['txtTelefono'];
 	$email	 			= $_POST['txtEmail'];
 	$clave 				= $_POST['txtClave'];
@@ -76,7 +76,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Guardar"){
 		$nombre 		 = $_POST['txtNombre'];
    		$apellidos 		 = $_POST['txtApellidos'];
    		$documento 		 = $_POST['txtDocumento'];
-     	$fechaNacimiento = $_POST['txtFechaNacimiento'];
+     	$fechaNacimiento = $_POST['txtfechaNacimiento'];
      	$telefono 		 = $_POST['txtTelefono'];
 		$email	 		 = $_POST['txtEmail'];
 		$clave 			 = $_POST['txtClave'];
@@ -169,7 +169,7 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 	if(isset($_POST['accion']) && $_POST['accion'] == "Eliminar" && isset($_POST['idRegistro']) && $_POST['idRegistro'] != ""){
 ?>
 			<div class="row red lighten-5">
-				<form class="col s12" action="backend.php" method="POST">
+				<form class="col s12" action="backend.php?Clientes" method="POST">
 					<div class="input-field col s12">
 						<h3>Eliminar el Cliente:<?=$objClientes->nombre?>?</h3>
 					</div>					
@@ -188,9 +188,9 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 	if(isset($_POST['accion']) && $_POST['accion'] == "Editar" && isset($_POST['idRegistro']) && $_POST['idRegistro'] != ""){
 ?>
 			<div class="row">
-				<form class="col s12" action="backend.php" method="POST">
+				<form class="col s12" action="backend.php?Clientes" method="POST">
 					<div class="input-field col s12">
-						<h3>Ingresar Cliente</h3>
+						<h3>Modificar Cliente</h3>
 					</div>
 					<div class="input-field col s12">
 						<input placeholder="Nombre Cliente" name="txtNombre" id="first_name" type="text" class="validate" value="<?=$objClientes->nombre?>">
@@ -205,7 +205,7 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 						<label for="first_name">Documento</label>
 					</div>
 					<div class="input-field col s12">
-						<input placeholder="Fecha Nacimiento Cliente" name="txtFechaNacimiento" id="first_name" type="text" class="validate" value="<?=$objClientes->fechaNacimiento?>">
+						<input placeholder="Fecha Nacimiento Cliente" name="txtfechaNacimiento" id="first_name" type="date" class="validate" value="<?=$objClientes->fechaNacimiento?>">
 						<label for="first_name">Fecha Nacimiento</label>
 					</div>
 					<div class="input-field col s12">
@@ -293,16 +293,16 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 						<td><?=$Clientes['clave']?></td>
 						<td><?=$Clientes['estadoRegistro']?></td>
 						<td>
-							<form action="backend.php" method="POST">
+							<form action="backend.php?Clientes" method="POST">
 								<input type="hidden" name="accion" value="Eliminar">
-								<input type="hidden" name="idRegistro" value="<?=$clientes['idCliente']?>">
+								<input type="hidden" name="idRegistro" value="<?=$Clientes['idCliente']?>">
 								<button class="btn-floating waves-effect waves-light red darken-3" type="submit" name="action">
 									<i class="material-icons right">delete_forever</i>
 								</button>
 							</form>
-							<form action="backend.php" method="POST">
+							<form action="backend.php?Clientes" method="POST">
 								<input type="hidden" name="accion" value="Editar">
-								<input type="hidden" name="idRegistro" value="<?=$clientes['idCliente']?>">
+								<input type="hidden" name="idRegistro" value="<?=$Clientes['idCliente']?>">
 								<button class="btn-floating waves-effect waves-light green darken-3" type="submit" name="action">
 									<i class="material-icons right">edit</i>
 								</button>
@@ -376,7 +376,7 @@ $listaClientes = $objClientes->listarClientes($arrayFiltros);
 							<label for="first_name">Telefono</label>
 						</div>
 						<div class="input-field col s12">
-							<input placeholder="txtFechaNacimiento" name="txtFechaNacimiento" id="first_name" type="date" class="validate">
+							<input placeholder="Fecha Nacimiento" name="txtfechaNacimiento" id="first_name" type="date" class="validate">
 							<label for="first_name">Fecha Nacimiento</label>
 						</div>
 						<div class="input-field col s12">

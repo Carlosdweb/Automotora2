@@ -84,7 +84,13 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
         <li><a href="backend.php?sec=Clientes">Clientes</a></li>
         <li><a href="backend.php?sec=Autos">Autos</a></li>
         <li><a href="backend.php?sec=Ventas">Ventas</a></li>
-      </ul>
+		<li>	
+						<a class='dropdown-trigger btn' href='backend.php' data-target='dropdown1'>Menu</a>
+							<!-- Dropdown Structure -->
+							<ul id='dropdown1' class='dropdown-content'>
+								<li class="divider" tabindex="-1"></li>
+								<li><a href="Cerrar_Sesion.php"><i class="material-icons">cloud</i>LogOut</a></li>
+      						</ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a href="backend.php?sec=Usuarios">Usuarios</a></li>
@@ -101,7 +107,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 			
     <?php
 		if(!isset($_SESSION['nombre'])){
-?>
+	?>
 			<br><br>
       <h1 class="header center orange-text">YaniCar Automoviles</h1>
       <div class="row center">

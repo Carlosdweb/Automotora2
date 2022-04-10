@@ -8,6 +8,8 @@ class ventas extends generico{
 		Esta clase maneja a las ventas en el sistema.
 	*/
 
+	public $idRegistro;
+	
 	// Nombre del usuario
 	public $idCliente;
 	// Es el Email con el que se loguea el usuario
@@ -15,7 +17,7 @@ class ventas extends generico{
 
     public $precio;
 
-	public $fechainicio;
+	public $fechaInicio;
 
 	public $fechaFinal;
 
@@ -25,10 +27,11 @@ class ventas extends generico{
 	public function constructor($arrayDatos = array()){
 
 		parent::constructor($arrayDatos);
+		$this->idRegistro 	  = $this->chequeadorConstructor($arrayDatos, 'idVenta', ''); 
 		$this->idCliente 	  = $this->chequeadorConstructor($arrayDatos, 'idCliente', ''); 
 		$this->idAuto	      = $this->chequeadorConstructor($arrayDatos, 'idAuto', ''); 
         $this->precio	      = $this->chequeadorConstructor($arrayDatos, 'precio', ''); 
-		$this->fechainicio    = $this->chequeadorConstructor($arrayDatos, 'fechainicio', ''); 
+		$this->fechaInicio    = $this->chequeadorConstructor($arrayDatos, 'fechaInicio', ''); 
 		$this->fechaFinal	  = $this->chequeadorConstructor($arrayDatos, 'fechaFinal', '');
         $this->estadoEntrega  = $this->chequeadorConstructor($arrayDatos, 'estadoEntrega', '');
 		$this->estadoRegistro = $this->chequeadorConstructor($arrayDatos, 'estado', 'Ingresado'); 
@@ -55,7 +58,7 @@ class ventas extends generico{
 						idCliente		= :idCliente,
 						idAuto  		= :idAuto,
 						precio			= :precio,
-						fechainicio		= :fechainicio,
+						fechaInicio		= :fechaInicio,
                         fechaFinal      = :fechaFinal,
                         estadoEntrega   = :estadoEntrega,
 						estadoRegistro	= :estadoRegistro,
@@ -68,7 +71,7 @@ class ventas extends generico{
 				"idCliente"			=>	$this->idCliente,
 				"idAuto" 			=>  $this->idAuto,
 				"precio"			=>	$this->precio,				
-				"fechainicio"		=>	$this->fechainicio,
+				"fechaInicio"		=>	$this->fechaInicio,
                 "fechaFinal"		=>	$this->fechaFinal,
                 "estadoEntrega"		=>	$this->estadoEntrega,
 				"estadoRegistro"	=>	$this->estadoRegistro,
@@ -102,7 +105,7 @@ class ventas extends generico{
 		$this->idCliente		= $respuesta[0]['idCliente'];
 		$this->idAuto			= $respuesta[0]['idAuto'];
 		$this->precio			= $respuesta[0]['precio'];
-		$this->fechainicio		= $respuesta[0]['fechainicio'];
+		$this->fechaInicio		= $respuesta[0]['fechaInicio'];
         $this->fechaFinal		= $respuesta[0]['fechaFinal'];
         $this->estadoEntrega	= $respuesta[0]['estadoEntrega'];
 		$this->estadoRegistro	= $respuesta[0]['estadoRegistro'];
@@ -119,7 +122,7 @@ class ventas extends generico{
 				idCliente		= :idCliente,
 				idAuto  		= :idAuto,
 				precio			= :precio,
-				fechainicio		= :fechainicio,
+				fechaInicio		= :fechaInicio,
                 fechaFinal      = :fechaFinal,
                 estadoEntrega   = :estadoEntrega,
 				estadoRegistro	= :estado,
@@ -133,7 +136,7 @@ class ventas extends generico{
 			"idCliente"		=>	$this->idCliente,
 			"idAuto"		=>	$this->idAuto,				
 			"precio"		=>	$this->precio,
-            "fechainicio"	=>	$this->fechainicio,
+            "fechaInicio"	=>	$this->fechaInicio,
             "fechaFinal"	=>	$this->fechaFinal,
             "estadoEntrega"	=>	$this->estadoEntrega,
 			"estado"		=>	$this->estadoRegistro,

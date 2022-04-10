@@ -2,6 +2,7 @@
 
 require_once("Modelos/Autos.php");
 require_once("Modelos/Clientes.php");
+require_once("Modelos/Generico.php");
 
 $objAutos = new autos();
 
@@ -80,6 +81,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
   <link href="Web/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
+  
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <img src="Imagenes/Yanicar Automoviles.png" alt="Yanicar Automoviles" width="180px" height="60px">
@@ -94,6 +96,7 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>    
+   
   </nav>
 
         <div class="container section">
@@ -255,7 +258,12 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
     	</div>
   </div>      
 
-
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>   
+        
         
         <div class="col s12 m4">
           <div class="icon-block">

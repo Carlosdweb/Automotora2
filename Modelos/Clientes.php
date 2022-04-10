@@ -7,7 +7,7 @@ class clientes extends generico{
 	/*
 		Esta clase maneja a los Clientes  del sistema.
 	*/
-	public $idCliente;
+	//public $idCliente;
 	// Nombre del usuario
 	public $nombre;
 	
@@ -15,7 +15,7 @@ class clientes extends generico{
 
 	public $documento;
 
-	public $FechaNacimiento;
+	public $fechaNacimiento;
 
 	public $telefono;
 	// Es el Email con el que se loguea el usuario
@@ -26,17 +26,18 @@ class clientes extends generico{
 	
 
 
-	public function constructor($arrayDatos = array()){
+	public function constructor($arrayDatos = array('idRegistro'=>0,'estadoRegistro'=>'')){
 
 		parent::constructor($arrayDatos);
-		$this->nombre 			= $this->chequeadorConstructor($arrayDatos, 'nombre', ''); 
-		$this->email			= $this->chequeadorConstructor($arrayDatos, 'email', ''); 
-		$this->apellidos		= $this->chequeadorConstructor($arrayDatos, 'apellidos', ''); 
-		$this->documento		= $this->chequeadorConstructor($arrayDatos, 'documento', ''); 
-		$this->fechaNacimiento	= $this->chequeadorConstructor($arrayDatos, 'fechaNacimiento', ''); 
-		$this->telefono			= $this->chequeadorConstructor($arrayDatos, 'telefono', ''); 
-		$this->clave			= $this->chequeadorConstructor($arrayDatos, 'clave', ''); 
-		$this->estadoRegistro 	= $this->chequeadorConstructor($arrayDatos, 'estado', 'Ingresado'); 
+
+		$this->nombre 			= $this->chequeadorConstructor($arrayDatos,'nombre'); 
+		$this->email			= $this->chequeadorConstructor($arrayDatos,'email'); 
+		$this->apellidos		= $this->chequeadorConstructor($arrayDatos,'apellidos'); 
+		$this->documento		= $this->chequeadorConstructor($arrayDatos,'documento'); 
+		$this->fechaNacimiento	= $this->chequeadorConstructor($arrayDatos,'fechaNacimiento'); 
+		$this->telefono			= $this->chequeadorConstructor($arrayDatos,'telefono'); 
+		$this->clave			= $this->chequeadorConstructor($arrayDatos,'clave'); 
+		//$this->estadoRegistro 	= $this->chequeadorConstructor($arrayDatos, 'estado', 'Ingresado'); 
 	}
 
 	public function ingresarClientes(){
@@ -67,7 +68,7 @@ class clientes extends generico{
 						telefono		= :telefono,
 						email  			= :email,
 						clave			= :clave,
-						estadoRegistro	= :estadoRegistro,
+						estadoRegistro	= :estado,
 						fechaEdicion	= :fechaEdicion,
 						historial 		= '';
 				";
@@ -82,7 +83,7 @@ class clientes extends generico{
 				"telefono" 			=>  $this->telefono,
 				"email" 			=>  $this->email,
 				"clave"				=>	$clave,				
-				"estadoRegistro"	=>	$this->estadoRegistro,
+				"estado"	        =>	$this->estadoRegistro,
 				"fechaEdicion"		=>  $fecha,
 			);	
 
@@ -104,11 +105,13 @@ class clientes extends generico{
 
 	public function traerClientes($idRegistro){
 		
-		$varSQL 	= 'SELECT * FROM clientes WHERE idCliente = :idCliente;';
+		$varSQL 	= 'SELECT * FROM clientes WHERE idCliente =:idCliente;';
 		$arrayCliente = array('idCliente' => $idRegistro);
 
 		$respuesta = $this->traerListado($varSQL, $arrayCliente);
-
+		
+	
+		
 		$this->idRegistro 		= $respuesta[0]['idCliente'];
 		$this->nombre			= $respuesta[0]['nombre'];
 		$this->apellidos		= $respuesta[0]['apellidos'];
@@ -118,6 +121,9 @@ class clientes extends generico{
 		$this->email			= $respuesta[0]['email'];
 		$this->clave			= $respuesta[0]['clave'];
 		$this->estadoRegistro	= $respuesta[0]['estadoRegistro'];
+
+	
+		
 
 	}// traerCliente
 
@@ -135,10 +141,12 @@ class clientes extends generico{
 					telefono		= :telefono,
 					email  			= :email,
 					clave			= :clave,
-					estadoRegistro	= :estado,
+					estadoRegistro	= :estadoRegistro,
 					fechaEdicion	= :fechaEdicion,
 					historial 		= ''
 				WHERE idCliente     = :idCliente;
+
+
 			";
 
 
@@ -147,10 +155,10 @@ class clientes extends generico{
 			"apellidos"			=>	$this->apellidos,
 			"documento"			=>	$this->documento,
 			"fechaNacimiento"	=>	$this->fechaNacimiento,
-			"telefono"			=>	$this->nombre,
+			"telefono"			=>	$this->telefono,
 			"email" 			=>  $this->email,
 			"clave"				=>	$this->clave,				
-			"estado"			=>	$this->estadoRegistro,
+			"estadoRegistro"    =>	$this->estadoRegistro,
 			"fechaEdicion"		=>  $fecha,
 			"idCliente" 		=>  $this->idRegistro,
 		);	
@@ -197,7 +205,7 @@ class clientes extends generico{
 		$retorno = $this->traerListado($varSQL, array());
 		return $retorno;
 
-	}//listarUsuarios
+	}//listarClientes
 	
 	public function totalClientes($filtos = array()){
 		
@@ -222,7 +230,7 @@ class clientes extends generico{
 		$retorno = "";
 		$claMD5 = md5($clave);	
 
-		$varSQL 	= 'SELECT * FROM clientes WHERE email = :email AND clave = :clave ;';
+		$varSQL 	= 'SELECT * FROM clientes WHERE email =:email AND clave =:clave ;';
 		$arrayClientes 	= array('email' => $email, 'clave' => $clave);
 
 		
