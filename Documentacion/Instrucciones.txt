@@ -1,0 +1,19 @@
+En este apartado puede encontrar las instrucciones para el login.
+
+Login backend
+Usuario:  rdasilva1983@gmail.com 
+Contraseña:  Aldebaran66
+Rol: Administrador
+
+
+Login Frontend
+Usuario:  rdasilva1983@gmail.com 
+Contraseña:  Aldebaran66
+Rol: Cliente Activo
+
+el proyecto no cuenta con un cron de instalacion, en el zip se encuentran todos los archivos para el funcionamiento del sitio, 
+se envia tambien el archivo con la base de datos conteniendo las tablas y demas para su instalacion.
+
+La pagina cuenta con un Login para los usuarios y sus roles discriminados por los mismos, solo tienen acceso limitado los vendedores y supervisores, 
+los administradores tienen acceso total, solo los administradores pueden ingresar nuevos usuarios.
+

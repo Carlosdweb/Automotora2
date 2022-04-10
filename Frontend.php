@@ -3,6 +3,7 @@
 require_once("Modelos/Autos.php");
 require_once("Modelos/Clientes.php");
 require_once("Modelos/Generico.php");
+require_once("Modelos/Ventas.php");
 
 $objAutos = new autos();
 
@@ -12,39 +13,10 @@ $listaRandom = $objAutos->listarAutos($arraFilto);
 
 
 
-
-@session_start();
-
-if(isset($_GET['sec'])){
-
-	$_SESSION['seccion'] = $_GET['sec'];
-
-}else{
-
-	// Si da error que no existe cargamos 
-	if(!isset($_SESSION['seccion'])){
-
-		$_SESSION['seccion'] = "principal";
-	
-	// Si existe y es vacio 
-	}elseif($_SESSION['seccion'] == ""){
-		$_SESSION['seccion'] = "principal";	
-	// Si existis y tenes algo 
-	}else{
-
-	}
-
-}
-	
-if(isset($_SESSION['nombre'])){
-
-}else{
-
-}
-
-
 $objCliente = new clientes();
 $respuesta = "";
+
+
 
 if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 
@@ -53,17 +25,27 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 	
 	$respuesta = $objCliente->login($email, $clave);
 
+	
+
 	if(isset($respuesta[0]['nombre'])){
 
-		
+				
 		@session_start();
-		$_SESSION['nombre'] = $respuesta[0]['nombre'];
-		$_SESSION['fecha'] 	= date("Y-m-d H:i:s");
-	}
+		$_SESSION['txtEmail'] = $email;
+		$_SESSION['txtClave'] = $clave;
+		
+		}else {
+		return "Se ingreso el cliente correctamente";
+		}
+
+
+$objVentas = new ventas();
+$respuesta = "";	
+
+$nuevaVenta = $objVentas->ingresarVenta();
 }
 
-
-
+	
 ?>
 
 
@@ -85,12 +67,12 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <img src="Imagenes/Yanicar Automoviles.png" alt="Yanicar Automoviles" width="180px" height="60px">
-      <ul class="right hide-on-med-and-down">
-      <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal3">Registrate</a></li>
-        <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
-      </ul>
+			<ul class="right hide-on-med-and-down">
+				<li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal3">Registrate</a></li>
+				<li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
+			</ul>
 
-      <ul id="nav-mobile" class="side-nav">
+      <ul id="nav-mobile" class="side-nav"> 
          <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal3">Registrate</a></li>
          <li><a class="waves-effect waves-light btn modal-trigger blue darken-3" href="#modal2">Ingresar</a></li>
       </ul>
@@ -102,6 +84,8 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
         <div class="container section">
           <div class="row">
             <div class="col s12">
+
+			<h1></h1>
             <h1 class="header center  orange darken-1">Elige el auto de tus sueños</h1>
 
               <div class="carousel carousel-slider">
@@ -155,8 +139,9 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 				<div class="row">
 					<form class="col s12" method="POST"action="Frontend.php" >
 						<div class="input-field col s12">
-							<h3>Ingresar Clientes</h3>
+							<h3>Registrar Cliente</h3>
 						</div>
+
 						<div class="input-field col s12">
 							<input placeholder="Nombre" name="txtNombre" id="first_name" type="text" class="validate">
 							<label for="first_name">Nombre</label>
@@ -200,11 +185,12 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
   <!-- Modal Structure -->
   <div id="modal2" class="modal">
 			<div class="modal-content">				
-				<div class="row">
+				<div class="row"> 
 					<form class="col s12" action="Frontend.php" method="POST">
 						<div class="input-field col s12">
-							<h3>Ingresar Cliente</h3>
-					
+							<h3>login Cliente</h3>
+
+						
 						<div class="input-field col s12">
 							<input placeholder="Email" name="txtEmail" id="first_name" type="text" class="validate">
 							<label for="first_name">Email</label>
@@ -235,7 +221,23 @@ if(isset($_POST['accion']) && $_POST['accion'] == "Login"){
 					<form class="col s12" action="Frontend.php" method="POST">
 						<div class="input-field col s12">
 							<h3>Reservar Auto</h3>
-					
+
+						<div class="input-field col s12">
+							<input placeholder="Id Cliente" name="txtidCliente" id="first_name" type="text" class="validate">
+							<label for="first_name">Id Cliente</label>
+						</div>
+
+						<div class="input-field col s12">
+							<input placeholder="Id Auto" name="txtidAuto" id="first_name" type="text" class="validate">
+							<label for="first_name">Id Auto</label>
+						</div>
+
+						<div class="input-field col s12">
+							<input placeholder="Precio" name="txtPrecio" id="first_name" type="text" class="validate">
+							<label for="first_name">Precio</label>
+						</div>
+						
+						
 						<div class="input-field col s12">
 							<input placeholder="Desde" name="txtfechainicio" id="first_name" type="date" class="validate">
 							<label for="first_name">Desde</label>
